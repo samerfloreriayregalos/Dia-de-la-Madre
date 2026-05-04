@@ -46,7 +46,7 @@ body {
   background: linear-gradient(135deg, #0d0508 0%, #1a0a12 50%, #0d0508 100%);
 }
 
-/* ════════════════════��════════════════════
+/* ═════════════════════════════════════════
    EFECTO DE RAYOS DE LUZ
    ═════════════════════════════════════════ */
 #splash::before {
@@ -466,10 +466,12 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 1.8rem;
-  max-width: min(520px, 95vw);
+  max-width: min(580px, 95vw);
   width: 100%;
   transform: scale(.9) translateY(24px);
   transition: transform .45s cubic-bezier(.23,1,.32,1);
+  max-height: 90vh;
+  overflow-y: auto;
 }
 #lightbox.active #lb-panel { transform: scale(1) translateY(0); }
 
@@ -488,6 +490,7 @@ body {
   display: flex; align-items: center; justify-content: center;
   transition: background .25s, transform .25s;
   backdrop-filter: blur(10px);
+  z-index: 10;
 }
 #lb-close:hover {
   background: rgba(244,167,185,0.28);
@@ -512,6 +515,33 @@ body {
   display: block;
 }
 
+#lb-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+#lb-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--white);
+  text-align: center;
+}
+
+#lb-description {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: rgba(255,248,251,.8);
+  text-align: left;
+  background: rgba(244,167,185,0.05);
+  padding: 1.2rem;
+  border-radius: 12px;
+  border-left: 3px solid var(--rose);
+}
+
 #lb-wa-btn {
   display: inline-flex;
   align-items: center;
@@ -528,6 +558,8 @@ body {
   border-radius: 100px;
   box-shadow: 0 14px 44px rgba(37,211,102,0.42);
   transition: transform .3s, box-shadow .3s;
+  width: 100%;
+  justify-content: center;
 }
 #lb-wa-btn:hover {
   transform: translateY(-3px);
@@ -779,6 +811,7 @@ h1 em {
     box-shadow .45s,
     border-color .45s;
   cursor: pointer;
+  position: relative;
 }
 .product-card:hover {
   transform: translateY(-10px) scale(1.01);
@@ -998,6 +1031,15 @@ footer .heart { color: var(--rose); }
     flex: 1 !important;
     width: 100%;
   }
+  
+  #lb-close {
+    top: -2.8rem;
+  }
+  
+  #lb-description {
+    font-size: 0.8rem;
+    padding: 1rem;
+  }
 }
 @media (max-width: 400px) {
   .products-grid { grid-template-columns: 1fr; }
@@ -1042,12 +1084,16 @@ footer .heart { color: var(--rose); }
     <div id="lb-img-frame">
       <img id="lb-img" src="" alt="Arreglo floral">
     </div>
-    <a id="lb-wa-btn" href="#" target="_blank" rel="noopener noreferrer">
-      <svg width="18" height="18" fill="white" viewBox="0 0 24 24">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-      </svg>
-      Pedir este arreglo por WhatsApp
-    </a>
+    <div id="lb-content">
+      <h3 id="lb-title"></h3>
+      <div id="lb-description"></div>
+      <a id="lb-wa-btn" href="#" target="_blank" rel="noopener noreferrer">
+        <svg width="18" height="18" fill="white" viewBox="0 0 24 24">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Pedir este arreglo por WhatsApp
+      </a>
+    </div>
   </div>
 </div>
 
@@ -1135,38 +1181,29 @@ footer .heart { color: var(--rose); }
 const WA_NUMBER = '51992741960';
 
 const products = [
-  { id: 1,  img: 'imgramos/producto2/fl1.jpeg'  },
-  { id: 2,  img: 'imgramos/producto2/fl2.jpeg'  },
-  { id: 3,  img: 'imgramos/producto2/fl3.jpeg'  },
-  { id: 4,  img: 'imgramos/producto2/fl4.jpeg'  },
-  { id: 5,  img: 'imgramos/producto2/fl5.jpeg'  },
-  { id: 6,  img: 'imgramos/producto2/fl6.jpeg'  },
-  { id: 7,  img: 'imgramos/producto2/fl7.jpeg'  },
-  { id: 8,  img: 'imgramos/producto2/fl8.jpeg'  },
-  { id: 9,  img: 'imgramos/producto2/fl9.jpeg'  },
-  { id: 10, img: 'imgramos/producto2/fl10.jpeg' },
-  { id: 11, img: 'imgramos/producto2/fl11.jpeg' },
-   
-   { id: 12, img: 'imgramos/producto2/fl12.jpeg' },
-   { id: 13, img: 'imgramos/producto2/fl13.jpeg' },
-   { id: 14, img: 'imgramos/producto2/fl14.jpeg' },
-   { id: 15, img: 'imgramos/producto2/fl15.jpeg' },
-   { id: 16, img: 'imgramos/producto2/fl16.jpeg' },
-   { id: 17, img: 'imgramos/producto2/fl17.jpeg' },
-   { id: 18, img: 'imgramos/producto2/fl18.jpeg' },
-   { id: 19, img: 'imgramos/producto2/fl19.jpeg' },
-   { id: 20, img: 'imgramos/producto2/fl20.jpeg' },
-   { id: 21, img: 'imgramos/producto2/fl21.jpeg' },
-   { id: 22, img: 'imgramos/producto2/fl22.jpeg' },
-   { id: 23, img: 'imgramos/producto2/fl23.jpeg' },
-   { id: 24, img: 'imgramos/producto2/fl24.jpeg' },
-   { id: 25, img: 'imgramos/producto2/fl25.jpeg' },
-   { id: 26, img: 'imgramos/producto2/fl26.jpeg' },
-   { id: 27, img: 'imgramos/producto2/fl27.jpeg' },
-   { id: 28, img: 'imgramos/producto2/fl28.jpeg' },
-   { id: 29, img: 'imgramos/producto2/fl29.jpeg' },
-   { id: 30, img: 'imgramos/producto2/fl30.jpeg' },
-   
+  { id: 1,  img: 'imgramos/producto2/fl1.jpeg', title: 'Ramo Azul Temático', description: 'Ramo en tonos azules. Incluye: 1 peluche de pingüino, 3 rosas eternas azules, 1 moto Hot Wheels, 2 chocolates Vizzio y tarjeta.' },
+  { id: 2,  img: 'imgramos/producto2/fl2.jpeg', title: 'Pantera Rosa Elegante', description: 'Ramo rosado elegante. Incluye: Peluche de Pantera Rosa, rosas eternas rojas y rosadas, mini corona dorada, mariposa y tarjeta "Te amo".' },
+  { id: 3,  img: 'imgramos/producto2/fl3.jpeg', title: 'Clásico Blanco Dorado', description: 'Ramo clásico blanco con dorado. Incluye: Rosas eternas rojas, detalles de flores blancas, mariposa dorada, lazo rojo y cinta "Feliz día amor".' },
+  { id: 4,  img: 'imgramos/producto2/fl4.jpeg', title: 'Love Romántico', description: 'Ramo rosado temático "Love". Incluye: Rosas eternas rojas, mariposa dorada, lazo rojo y cinta decorativa "Te amo".' },
+  { id: 5,  img: 'imgramos/producto2/fl5.jpeg', title: 'Artesanal Blanco', description: 'Ramo artesanal blanco. Incluye: Flores rojas de textura aterciopelada, corazón rojo decorativo, mariposas rojas y lazo a juego.' },
+  { id: 6,  img: 'imgramos/producto2/fl6.jpeg', title: 'San Valentín Ovejita', description: 'Ramo romántico blanco con corazones. Incluye: Peluche de ovejita sosteniendo un tulipán, rosas eternas rojas y tarjeta de San Valentín.' },
+  { id: 7,  img: 'imgramos/producto2/fl7.jpeg', title: 'Pantera Rosa Elegancia', description: 'Ramo rosado elegante con peluche de Pantera Rosa, rosas eternas, corona dorada y tarjeta "Te amo".' },
+  { id: 8,  img: 'imgramos/producto2/fl8.jpeg', title: 'Princesa Oso Rosado', description: 'Ramo rosado "Princesa". Incluye: Peluche de oso rosado recostado, rosas eternas en rosado pastel, mariposa tornasol y tarjeta "Feliz Día Princesa".' },
+  { id: 9,  img: 'imgramos/producto2/fl9.jpeg', title: 'Pantera Rosas Corona', description: 'Ramo rosado con Pantera Rosa, rosas eternas, detalle de corona y tarjeta "Te amo".' },
+  { id: 10, img: 'imgramos/producto2/fl10.jpeg', title: 'Pingüino Love', description: 'Ramo temático "Love". Incluye: Peluche de pingüino con gorrito rosado, 3 rosas eternas rosadas, 2 bombones Bon o Bon y 1 chocolate Vizzio.' },
+  { id: 11, img: 'imgramos/producto2/fl11.jpeg', title: 'Pingüino Enamorado', description: 'Ramo romántico de pingüino. Incluye: Peluche de pingüino con gorrito, 3 rosas eternas rosadas (listón), 2 bombones Bon o Bon, 1 chocolate Vizzio y tarjeta con temática de pingüinos enamorados.' },
+  { id: 12, img: 'imgramos/producto2/fl12.jpeg', title: 'Rojo Clásico Mamá', description: 'Ramo rojo clásico. Incluye: Tulipanes y liliums rojos artesanales, margarita blanca con centro rojo, follaje verde, lazo rojo y tarjeta "Feliz día Mamá".' },
+  { id: 13, img: 'imgramos/producto2/fl13.jpeg', title: 'Primavera Mejor Mamá', description: 'Ramo primaveral para mamá. Incluye: Liliums en fucsia y rojo, un tulipán rojo artesanal, margaritas blancas, lazo rojo y tarjeta "Para la MEJOR Mamá del Mundo".' },
+  { id: 14, img: 'imgramos/producto2/fl14.jpeg', title: 'Fucsia Rojo Mamá', description: 'Ramo fucsia y rojo. Incluye: Liliums fucsias y rojos, tulipanes rojos artesanales, envoltura rosada, lazo rojo y tarjeta "Para la MEJOR Mamá del Mundo".' },
+  { id: 15, img: 'imgramos/producto2/fl15.jpeg', title: 'Rosado Mixto Pastel', description: 'Ramo rosado mixto. Incluye: Liliums fucsias y tulipanes rosa pastel artesanales, margarita blanca, follaje verde, lazo rosado y tarjeta para mamá.' },
+  { id: 16, img: 'imgramos/producto2/fl16.jpeg', title: 'Morado Elegante', description: 'Ramo morado elegante. Incluye: Liliums morados artesanales, margaritas blancas, mariposa dorada, lazo lila y tarjeta "Feliz día Mamá".' },
+  { id: 17, img: 'imgramos/producto2/fl17.jpeg', title: 'Tulipanes Especial', description: 'Ramo de tulipanes. Incluye: 5 tulipanes rojos artesanales, margaritas blancas con centro rojo, envoltura con lunares, lazo rojo y tarjeta especial para mamá.' },
+  { id: 18, img: 'imgramos/producto2/fl18.jpeg', title: 'Lila Rosado Delicado', description: 'Ramo en tonos lila y rosado. Incluye: Liliums y un tulipán rosados artesanales, margaritas blancas, follaje verde, lazo rosado y tarjeta especial para mamá.' },
+  { id: 19, img: 'imgramos/producto2/fl19.jpeg', title: 'Floral Rojo Radiante', description: 'Ramo floral rojo. Incluye: Liliums rojos artesanales, pequeñas margaritas blancas, follaje verde, lazo rojo y tarjeta "Para la MEJOR Mamá del Mundo".' },
+  { id: 20, img: 'imgramos/producto2/fl20.jpeg', title: 'Macetita Corazón', description: 'Macetita de flores eternas. Incluye: Maceta decorativa con detalle de corazón, 5 margaritas rosadas artesanales y tarjeta "Feliz día de la Madre".' },
+  { id: 21, img: 'imgramos/producto2/fl21.jpeg', title: 'Rojo Elegancia Negra', description: 'Ramo rojo elegante. Incluye: Tulipanes y liliums rojos artesanales, margaritas blancas con centro rojo, llamativa envoltura negra con estampado de margaritas, lazo rojo y tarjeta ilustrada para mamá.' },
+  { id: 22, img: 'imgramos/producto2/fl22.jpeg', title: 'Majestuoso Rosa Pastel', description: 'Ramo majestuoso rosado. Incluye: Una gran variedad de tulipanes, liliums y margaritas en tonos rosa pastel artesanales, follaje verde, envoltura rosa translúcida con detalles de encaje, lazo fucsia y tarjeta ilustrada para mamá.' },
+  { id: 23, img: 'imgramos/producto2/fl23.jpeg', title: 'Mini Rojo Corazón', description: 'Ramo mini rojo. Incluye: Un lilium rojo artesanal, una pequeña margarita blanca, un toque de follaje verde, envoltura rosada, lazo blanco translúcido y tarjeta "Dios te luciste con la MAMÁ que me diste".' },
 ];
 
 function waLink(id) {
@@ -1229,6 +1266,8 @@ products.forEach(p => {
 ────────────────────────────────────────── */
 const lightbox  = document.getElementById('lightbox');
 const lbImg     = document.getElementById('lb-img');
+const lbTitle   = document.getElementById('lb-title');
+const lbDesc    = document.getElementById('lb-description');
 const lbWaBtn   = document.getElementById('lb-wa-btn');
 const lbClose   = document.getElementById('lb-close');
 const lbBackdrop= document.getElementById('lb-backdrop');
@@ -1238,6 +1277,8 @@ function openLightbox(id) {
   if (!p) return;
   lbImg.src       = p.img;
   lbImg.alt       = `Arreglo floral ${id}`;
+  lbTitle.textContent = p.title;
+  lbDesc.textContent = p.description;
   lbWaBtn.href    = waLink(id);
   lightbox.classList.add('active');
   document.body.style.overflow = 'hidden';
@@ -1246,7 +1287,11 @@ function openLightbox(id) {
 function closeLightbox() {
   lightbox.classList.remove('active');
   document.body.style.overflow = '';
-  setTimeout(() => { lbImg.src = ''; }, 420);
+  setTimeout(() => { 
+    lbImg.src = ''; 
+    lbTitle.textContent = '';
+    lbDesc.textContent = '';
+  }, 420);
 }
 
 lbClose.addEventListener('click', closeLightbox);
