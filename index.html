@@ -39,14 +39,14 @@ body {
   position: fixed;
   inset: 0;
   z-index: 3000;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   background: linear-gradient(135deg, #0d0508 0%, #1a0a12 50%, #0d0508 100%);
 }
 
-/* ═════════════════════════════════════════
+/* ════════════════════��════════════════════
    EFECTO DE RAYOS DE LUZ
    ═════════════════════════════════════════ */
 #splash::before {
@@ -567,7 +567,7 @@ body {
   position: relative; z-index: 10;
   min-height: 100vh;
   display: flex; flex-direction: column; align-items: center;
-  opacity: 0;
+  opacity: 1;
   transition: opacity .9s;
 }
 #app.visible { opacity: 1; }
@@ -1156,9 +1156,9 @@ const products = [
    { id: 18, img: 'imgramos/producto2/fl18.jpeg' },
    { id: 19, img: 'imgramos/producto2/fl19.jpeg' },
    { id: 20, img: 'imgramos/producto2/fl20.jpeg' },
-   { id: 17, img: 'imgramos/producto2/fl17.jpeg' },
-   { id: 17, img: 'imgramos/producto2/fl17.jpeg' },
-   { id: 17, img: 'imgramos/producto2/fl17.jpeg' },
+   { id: 21, img: 'imgramos/producto2/fl21.jpeg' },
+   { id: 22, img: 'imgramos/producto2/fl22.jpeg' },
+   { id: 23, img: 'imgramos/producto2/fl23.jpeg' },
 ];
 
 function waLink(id) {
@@ -1244,27 +1244,6 @@ function closeLightbox() {
 lbClose.addEventListener('click', closeLightbox);
 lbBackdrop.addEventListener('click', closeLightbox);
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
-
-/* ══════════════════════════════════════════════════════════════
-   SPLASH SCREEN TIMELINE
-   ══════════════════════════════════════════════════════════════ */
-window.addEventListener('load', () => {
-  const splash  = document.getElementById('splash');
-  const app     = document.getElementById('app');
-  const content = document.getElementById('splash-content');
-
-  setTimeout(() => {
-    content.classList.add('fade-out');
-  }, 4200);
-
-  setTimeout(() => {
-    app.classList.add('visible');
-  }, 4200);
-
-  setTimeout(() => {
-    splash.style.display = 'none';
-  }, 9000);
-});
 
 /* ──────────────────────────────────────────
    PETALS ANIMATION
