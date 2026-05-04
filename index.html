@@ -46,7 +46,7 @@ body {
   background: linear-gradient(135deg, #0d0508 0%, #1a0a12 50%, #0d0508 100%);
 }
 
-/* ════════���════════════════════════════════
+/* ═════════════════════════════════════════
    EFECTO DE RAYOS DE LUZ
    ═════════════════════════════════════════ */
 #splash::before {
@@ -140,7 +140,7 @@ body {
 /* ═════════════════════════════════════════
    CONTENIDO DEL SPLASH (LOGO + TAGLINE)
    VISIBLE DESDE EL INICIO
-   ═══════════════════��═════════════════════ */
+   ═════════════════════════════════════════ */
 #splash-content {
   position: relative;
   z-index: 50;
@@ -433,7 +433,7 @@ body {
 
 /* ─────────────────────────────────────────────
    LIGHTBOX
-───────────────────────────────────────────── */
+─────────���─────────────────────────────────── */
 #lightbox {
   position: fixed;
   inset: 0;
@@ -479,22 +479,31 @@ body {
   position: absolute;
   top: -3.2rem;
   right: 0;
-  width: 42px; height: 42px;
+  width: 48px; 
+  height: 48px;
   border-radius: 50%;
-  background: rgba(244,167,185,0.12);
-  border: 1px solid var(--glass-border);
+  background: rgba(244,167,185,0.15);
+  border: 2px solid rgba(244,167,185,0.4);
   color: var(--white);
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   line-height: 1;
   cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: background .25s, transform .25s;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  transition: background .25s, transform .25s, box-shadow .25s;
   backdrop-filter: blur(10px);
-  z-index: 10;
+  z-index: 20;
 }
+
 #lb-close:hover {
   background: rgba(244,167,185,0.28);
   transform: rotate(90deg);
+  box-shadow: 0 0 20px rgba(244,167,185,0.4);
+}
+
+#lb-close:active {
+  transform: rotate(90deg) scale(0.95);
 }
 
 #lb-img-frame {
@@ -627,7 +636,7 @@ body {
 }
 #app.visible { opacity: 1; }
 
-/* ─────────────────────────���───────────────────
+/* ─────────────────────────────────────────────
    HEADER
 ───────────────────────────────────────────── */
 header {
@@ -1057,6 +1066,10 @@ footer .heart { color: var(--rose); }
   
   #lb-close {
     top: -2.8rem;
+    right: -0.5rem;
+    width: 44px;
+    height: 44px;
+    font-size: 1.6rem;
   }
   
   #lb-description {
@@ -1074,6 +1087,12 @@ footer .heart { color: var(--rose); }
   
   #lb-img-frame {
     height: 350px;
+  }
+  
+  #lb-close {
+    width: 42px;
+    height: 42px;
+    font-size: 1.4rem;
   }
 }
 
@@ -1295,6 +1314,15 @@ products.forEach(p => {
 });
 
 /* ──────────────────────────────────────────
+   HISTORY STATE PARA RETROCEDER
+────────────────────────────────────────── */
+window.addEventListener('popstate', () => {
+  if (lightbox.classList.contains('active')) {
+    closeLightbox();
+  }
+});
+
+/* ──────────────────────────────────────────
    LIGHTBOX CON ZOOM Y DRAG
 ────────────────────────────────────────── */
 const lightbox  = document.getElementById('lightbox');
@@ -1321,6 +1349,9 @@ function openLightbox(id) {
   lbWaBtn.href    = waLink(id);
   lightbox.classList.add('active');
   document.body.style.overflow = 'hidden';
+  
+  // Agregar estado al historial
+  window.history.pushState({ product: id }, `Arreglo ${id}`);
   
   // Reset zoom y position al abrir
   currentScale = 1;
@@ -1415,9 +1446,22 @@ function updateImageTransform() {
   lbImg.style.transform = `scale(${currentScale}) translate(${currentX / currentScale}px, ${currentY / currentScale}px)`;
 }
 
-lbClose.addEventListener('click', closeLightbox);
-lbBackdrop.addEventListener('click', closeLightbox);
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+lbClose.addEventListener('click', () => {
+  closeLightbox();
+  window.history.back();
+});
+
+lbBackdrop.addEventListener('click', () => {
+  closeLightbox();
+  window.history.back();
+});
+
+document.addEventListener('keydown', e => { 
+  if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+    closeLightbox();
+    window.history.back();
+  }
+});
 
 /* ──────────────────────────────────────────
    PETALS ANIMATION
