@@ -46,7 +46,7 @@ body {
   background: linear-gradient(135deg, #0d0508 0%, #1a0a12 50%, #0d0508 100%);
 }
 
-/* ═════════════════════════════════════════
+/* ═════════════��═══════════════════════════
    EFECTO DE RAYOS DE LUZ
    ═════════════════════════════════════════ */
 #splash::before {
@@ -433,7 +433,7 @@ body {
 
 /* ─────────────────────────────────────────────
    LIGHTBOX
-─────────���─────────────────────────────────── */
+───────────────────────────────────────────── */
 #lightbox {
   position: fixed;
   inset: 0;
@@ -545,6 +545,119 @@ body {
 
 #lb-img:active {
   cursor: grabbing;
+}
+
+/* ═════════════════════════════════════════
+   ZOOM HINT ANIMATION
+   ═════════════════════════════════════════ */
+#lb-zoom-hint {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  animation: zoomHintFadeIn 0.6s ease-out forwards;
+}
+
+@keyframes zoomHintFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+#lb-zoom-hint.hide {
+  animation: zoomHintFadeOut 0.4s ease-out forwards;
+}
+
+@keyframes zoomHintFadeOut {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.8);
+  }
+}
+
+.zoom-icon {
+  width: 50px;
+  height: 50px;
+  background: rgba(244,167,185,0.2);
+  border: 2px solid rgba(244,167,185,0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  animation: zoomIconPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes zoomIconPulse {
+  0%, 100% {
+    background: rgba(244,167,185,0.15);
+    border-color: rgba(244,167,185,0.4);
+    transform: scale(1);
+  }
+  50% {
+    background: rgba(244,167,185,0.25);
+    border-color: rgba(244,167,185,0.6);
+    transform: scale(1.1);
+  }
+}
+
+.zoom-arrows {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arrow {
+  position: absolute;
+  font-size: 18px;
+  color: rgba(244,167,185,0.7);
+  animation: arrowBounce 1.2s ease-in-out infinite;
+}
+
+.arrow-up {
+  top: 5px;
+  animation-delay: 0s;
+}
+
+.arrow-down {
+  bottom: 5px;
+  animation-delay: 0.3s;
+}
+
+.arrow-left {
+  left: 5px;
+  animation-delay: 0.15s;
+}
+
+.arrow-right {
+  right: 5px;
+  animation-delay: 0.45s;
+}
+
+@keyframes arrowBounce {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
 }
 
 #lb-content {
@@ -1080,6 +1193,16 @@ footer .heart { color: var(--rose); }
   #lb-img-frame {
     height: 400px;
   }
+  
+  .zoom-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+  }
+  
+  .arrow {
+    font-size: 16px;
+  }
 }
 @media (max-width: 400px) {
   .products-grid { grid-template-columns: 1fr; }
@@ -1093,6 +1216,16 @@ footer .heart { color: var(--rose); }
     width: 42px;
     height: 42px;
     font-size: 1.4rem;
+  }
+  
+  .zoom-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  
+  .arrow {
+    font-size: 14px;
   }
 }
 
@@ -1130,10 +1263,21 @@ footer .heart { color: var(--rose); }
 <div id="lightbox" role="dialog" aria-modal="true">
   <div id="lb-backdrop"></div>
   <div id="lb-panel">
-    <button id="lb-close" aria-label="Cerrar">✕</button>
+    <button id="lb-close" aria-label="Cerrar producto">✕</button>
     <div id="lb-img-frame">
       <div id="lb-img-container">
         <img id="lb-img" src="" alt="Arreglo floral">
+      </div>
+      <div id="lb-zoom-hint">
+        <div class="zoom-icon">
+          🔍
+          <div class="zoom-arrows">
+            <div class="arrow arrow-up">▲</div>
+            <div class="arrow arrow-down">▼</div>
+            <div class="arrow arrow-left">◄</div>
+            <div class="arrow arrow-right">►</div>
+          </div>
+        </div>
       </div>
     </div>
     <div id="lb-content">
@@ -1334,10 +1478,13 @@ const lbDesc    = document.getElementById('lb-description');
 const lbWaBtn   = document.getElementById('lb-wa-btn');
 const lbClose   = document.getElementById('lb-close');
 const lbBackdrop= document.getElementById('lb-backdrop');
+const lbZoomHint = document.getElementById('lb-zoom-hint');
 
 let currentScale = 1;
 let isDragging = false;
 let startX, startY, currentX = 0, currentY = 0;
+let zoomHintTimeout = null;
+let hasInteracted = false;
 
 function openLightbox(id) {
   const p = products.find(x => x.id === id);
@@ -1357,12 +1504,23 @@ function openLightbox(id) {
   currentScale = 1;
   currentX = 0;
   currentY = 0;
+  hasInteracted = false;
   lbImg.style.transform = `scale(1) translate(0, 0)`;
+  
+  // Mostrar hint
+  lbZoomHint.classList.remove('hide');
+  
+  // Ocultar hint después de 4 segundos
+  if (zoomHintTimeout) clearTimeout(zoomHintTimeout);
+  zoomHintTimeout = setTimeout(() => {
+    lbZoomHint.classList.add('hide');
+  }, 4000);
 }
 
 function closeLightbox() {
   lightbox.classList.remove('active');
   document.body.style.overflow = '';
+  if (zoomHintTimeout) clearTimeout(zoomHintTimeout);
   setTimeout(() => { 
     lbImg.src = ''; 
     lbTitle.textContent = '';
@@ -1370,13 +1528,17 @@ function closeLightbox() {
     currentScale = 1;
     currentX = 0;
     currentY = 0;
+    hasInteracted = false;
     lbImg.style.transform = `scale(1) translate(0, 0)`;
+    lbZoomHint.classList.remove('hide');
   }, 420);
 }
 
 // ── Desktop: Rueda del mouse para zoom ──
 lbFrame.addEventListener('wheel', (e) => {
   e.preventDefault();
+  hasInteracted = true;
+  lbZoomHint.classList.add('hide');
   const delta = e.deltaY > 0 ? -0.1 : 0.1;
   currentScale = Math.max(1, Math.min(3, currentScale + delta));
   updateImageTransform();
@@ -1392,6 +1554,8 @@ lbImg.addEventListener('mousedown', (e) => {
 
 document.addEventListener('mousemove', (e) => {
   if (!isDragging || currentScale <= 1) return;
+  hasInteracted = true;
+  lbZoomHint.classList.add('hide');
   currentX = e.clientX - startX;
   currentY = e.clientY - startY;
   updateImageTransform();
@@ -1423,11 +1587,15 @@ lbFrame.addEventListener('touchmove', (e) => {
     const delta = (distance - lastDistance) * 0.01;
     currentScale = Math.max(1, Math.min(3, currentScale + delta));
     lastDistance = distance;
+    hasInteracted = true;
+    lbZoomHint.classList.add('hide');
     updateImageTransform();
     e.preventDefault();
   } else if (e.touches.length === 1 && isTouchDragging) {
     currentX = e.touches[0].clientX - touchStartX;
     currentY = e.touches[0].clientY - touchStartY;
+    hasInteracted = true;
+    lbZoomHint.classList.add('hide');
     updateImageTransform();
   }
 }, { passive: false });
