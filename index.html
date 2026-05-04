@@ -8,17 +8,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
 
-/* ─────────────────────────────────────────────
-   RESET & VARIABLES
-───────────────────────────────────────────── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
   --rose:         #f4a7b9;
   --deep-rose:    #c0526f;
-  --blush:        #fde8ef;
   --gold:         #d4a853;
-  --dark:         #1a0a12;
   --white:        #fff8fb;
   --glass:        rgba(255,248,251,0.07);
   --glass-border: rgba(244,167,185,0.25);
@@ -32,1252 +27,429 @@ body {
   overflow-x: hidden;
 }
 
-/* ─────────────────────────────────────────────
-   ENHANCED SPLASH SCREEN
-───────────────────────────────────────────── */
-#splash {
-  position: fixed;
-  inset: 0;
-  z-index: 3000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: linear-gradient(135deg, #0d0508 0%, #1a0a12 50%, #0d0508 100%);
-}
-
-/* ═════════════��═══════════════════════════
-   EFECTO DE RAYOS DE LUZ
-   ═════════════════════════════════════════ */
-#splash::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(244,167,185,0.12) 0%,
-    rgba(244,167,185,0.04) 30%,
-    transparent 70%
-  );
-  pointer-events: none;
-  animation: rayPulse 4.5s ease-in-out infinite;
-  z-index: 1;
-}
-
-@keyframes rayPulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
-}
-
-/* ═════════════════════════════════════════
-   ANILLOS PULSANTES DECORATIVOS
-   ═════════════════════════════════════════ */
-.splash-ring {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  pointer-events: none;
-  border: 1px solid;
-  z-index: 2;
-}
-
-#splash-ring-1 {
-  width: 300px;
-  height: 300px;
-  border-color: rgba(244,167,185,0.28);
-  animation: ringPulse1 3.2s ease-out infinite;
-}
-
-#splash-ring-2 {
-  width: 480px;
-  height: 480px;
-  border-color: rgba(244,167,185,0.2);
-  animation: ringPulse2 3.2s 0.7s ease-out infinite;
-}
-
-#splash-ring-3 {
-  width: 680px;
-  height: 680px;
-  border-color: rgba(244,167,185,0.15);
-  animation: ringPulse3 3.2s 1.4s ease-out infinite;
-}
-
-@keyframes ringPulse1 {
-  0% {
-    transform: translate(-50%, -50%) scale(0.85);
-    opacity: 0.9;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1.15);
-    opacity: 0;
-  }
-}
-
-@keyframes ringPulse2 {
-  0% {
-    transform: translate(-50%, -50%) scale(0.85);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1.15);
-    opacity: 0;
-  }
-}
-
-@keyframes ringPulse3 {
-  0% {
-    transform: translate(-50%, -50%) scale(0.85);
-    opacity: 0.7;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1.15);
-    opacity: 0;
-  }
-}
-
-/* ═════════════════════════════════════════
-   CONTENIDO DEL SPLASH (LOGO + TAGLINE)
-   VISIBLE DESDE EL INICIO
-   ═════════════════════════════════════════ */
-#splash-content {
-  position: relative;
-  z-index: 50;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2.4rem;
-  opacity: 1;
-  animation: contentStay 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-  text-align: center;
-}
-
-#splash-content.fade-out {
-  animation: contentFadeOut 1.4s cubic-bezier(0.23, 1, 0.32, 1) 4.2s forwards;
-}
-
-@keyframes contentStay {
-  from {
-    opacity: 0;
-    transform: translateY(32px) scale(0.92);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes contentFadeOut {
-  from {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-32px) scale(0.92);
-  }
-}
-
-/* ═════════════════════════════════════════
-   LOGO GIGANTE CON EFECTO DE FLOTACIÓN
-   ═════════════════════════════════════════ */
-#splash-logo-img {
-  width: min(360px, 80vw);
-  height: auto;
-  max-height: 360px;
-  object-fit: contain;
-  filter:
-    drop-shadow(0 0 80px rgba(244,167,185,0.8))
-    drop-shadow(0 0 30px rgba(244,167,185,0.6))
-    brightness(1.15);
-  animation: logoFloatEnhanced 4.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-  transition: filter 0.3s;
-  z-index: 60;
-  position: relative;
-}
-
-@keyframes logoFloatEnhanced {
-  0% {
-    transform: translateY(0px) scale(1) rotateZ(0deg);
-  }
-  50% {
-    transform: translateY(-22px) scale(1.04) rotateZ(0.5deg);
-  }
-  100% {
-    transform: translateY(0px) scale(1) rotateZ(0deg);
-  }
-}
-
-/* ═════════════════════════════════════════
-   LÍNEA DIVISORA ELEGANTE
-   ═════════════════════════════════════════ */
-#splash-divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.2rem;
-  color: rgba(244,167,185,0.6);
-  font-size: 0.95rem;
-  letter-spacing: 0.5em;
-  text-transform: uppercase;
-  font-weight: 200;
-  z-index: 60;
-  position: relative;
-}
-
-#splash-divider::before,
-#splash-divider::after {
-  content: '';
-  width: 100px;
-  height: 1.5px;
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(244,167,185,0.6) 50%,
-    transparent 100%
-  );
-}
-
-/* ═════════════════════════════════════════
-   TAGLINE CON EFECTOS DE GLOW
-   ═════════════════════════════════════════ */
-#splash-tagline {
-  font-family: 'Playfair Display', serif;
-  font-weight: 400;
-  font-size: clamp(1.6rem, 4vw, 2.6rem);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--white);
-  text-shadow:
-    0 0 40px rgba(244,167,185,0.7),
-    0 0 80px rgba(244,167,185,0.4);
-  animation: taglineGlowEnhanced 3s ease-in-out infinite;
-  z-index: 60;
-  position: relative;
-}
-
-@keyframes taglineGlowEnhanced {
-  0%, 100% {
-    text-shadow:
-      0 0 40px rgba(244,167,185,0.7),
-      0 0 80px rgba(244,167,185,0.4);
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    text-shadow:
-      0 0 50px rgba(244,167,185,0.9),
-      0 0 100px rgba(244,167,185,0.6);
-    opacity: 1;
-    transform: scale(1.02);
-  }
-}
-
-#splash-subtitle {
-  font-family: 'Jost', sans-serif;
-  font-weight: 200;
-  font-size: 0.78rem;
-  letter-spacing: 0.7em;
-  text-transform: uppercase;
-  color: var(--rose);
-  text-shadow: 0 0 25px rgba(244,167,185,0.6);
-  margin-top: -0.8rem;
-  opacity: 0.95;
-  z-index: 60;
-  position: relative;
-}
-
-/* ═════════════════════════════════════════
-   CORTINAS ELEGANTES - MÁS TIEMPO
-   ═════════════════════════════════════════ */
-.curtain-half {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 50.5%;
-  background: linear-gradient(
-    to right,
-    #0d0508 0%,
-    #1a0a12 50%,
-    #0d0508 100%
-  );
-  z-index: 100;
-  transition: none;
-}
-
-#curtain-left {
-  left: 0;
-  animation: curtainLeftOpen 5.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 3.8s forwards;
-  box-shadow: inset -12px 0 50px rgba(0,0,0,0.95);
-}
-
-#curtain-right {
-  right: 0;
-  animation: curtainRightOpen 5.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 3.8s forwards;
-  box-shadow: inset 12px 0 50px rgba(0,0,0,0.95);
-}
-
-@keyframes curtainLeftOpen {
-  0% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(-102%);
-    opacity: 1;
-  }
-}
-
-@keyframes curtainRightOpen {
-  0% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(102%);
-    opacity: 1;
-  }
-}
-
-/* ═════════════════════════════════════════
-   BRILLO ESPECTACULAR EN LA COSTURA
-   ═════════════════════════════════════════ */
-#curtain-seam {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 6px;
-  transform: translateX(-50%);
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(244,167,185,0.4) 10%,
-    rgba(244,167,185,0.8) 30%,
-    rgba(244,167,185,1) 50%,
-    rgba(244,167,185,0.8) 70%,
-    rgba(244,167,185,0.4) 90%,
-    transparent 100%
-  );
-  box-shadow:
-    0 0 60px 16px rgba(244,167,185,0.8),
-    0 0 120px 28px rgba(244,167,185,0.5),
-    inset 0 0 30px rgba(255,255,255,0.6),
-    inset -2px 0 10px rgba(255,255,255,0.4),
-    inset 2px 0 10px rgba(255,255,255,0.4);
-  z-index: 101;
-  opacity: 0;
-  animation: seamGlowEnhanced 5.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 3.8s forwards;
-  pointer-events: none;
-}
-
-@keyframes seamGlowEnhanced {
-  0% {
-    opacity: 0;
-    box-shadow:
-      0 0 0px 0px rgba(244,167,185,0),
-      0 0 0px 0px rgba(244,167,185,0),
-      inset 0 0 0px rgba(255,255,255,0),
-      inset -2px 0 0px rgba(255,255,255,0),
-      inset 2px 0 0px rgba(255,255,255,0);
-  }
-  15% {
-    opacity: 1;
-    box-shadow:
-      0 0 60px 16px rgba(244,167,185,0.8),
-      0 0 120px 28px rgba(244,167,185,0.5),
-      inset 0 0 30px rgba(255,255,255,0.6),
-      inset -2px 0 10px rgba(255,255,255,0.4),
-      inset 2px 0 10px rgba(255,255,255,0.4);
-  }
-  100% {
-    opacity: 1;
-    box-shadow:
-      0 0 60px 16px rgba(244,167,185,0.8),
-      0 0 120px 28px rgba(244,167,185,0.5),
-      inset 0 0 30px rgba(255,255,255,0.6),
-      inset -2px 0 10px rgba(255,255,255,0.4),
-      inset 2px 0 10px rgba(255,255,255,0.4);
-  }
-}
-
-/* ═════════════════════════════════════════
-   INDICADOR "ABRIENDO"
-   ═════════════════════════════════════════ */
-#splash-hint {
-  position: absolute;
-  bottom: 4rem;
-  font-family: 'Jost', sans-serif;
-  font-size: 0.7rem;
-  letter-spacing: 0.45em;
-  text-transform: uppercase;
-  color: rgba(244,167,185,0.5);
-  opacity: 0;
-  animation: hintPulseEnhanced 2.2s ease-in-out 4.2s forwards;
-  z-index: 60;
-}
-
-@keyframes hintPulseEnhanced {
-  0% {
-    opacity: 0;
-  }
-  40% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-/* ─────────────────────────────────────────────
+/* ══════════════════════════════════════════
    LIGHTBOX
-───────────────────────────────────────────── */
+══════════════════════════════════════════ */
 #lightbox {
-  position: fixed;
-  inset: 0;
-  z-index: 2500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: fixed; inset: 0; z-index: 2500;
+  display: flex; align-items: center; justify-content: center;
   padding: 1.5rem;
-  visibility: hidden;
-  opacity: 0;
+  visibility: hidden; opacity: 0;
   transition: opacity .4s, visibility .4s;
 }
-#lightbox.active {
-  visibility: visible;
-  opacity: 1;
-}
+#lightbox.active { visibility: visible; opacity: 1; }
 
 #lb-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(5, 1, 4, 0.92);
-  backdrop-filter: blur(16px);
-  cursor: pointer;
+  position: absolute; inset: 0;
+  background: rgba(5,1,4,.92); backdrop-filter: blur(16px); cursor: pointer;
 }
 
 #lb-panel {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.8rem;
-  max-width: min(580px, 95vw);
-  width: 100%;
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 1.4rem;
+  max-width: min(540px,95vw); width: 100%;
+  max-height: 92vh; overflow-y: auto;
   transform: scale(.9) translateY(24px);
   transition: transform .45s cubic-bezier(.23,1,.32,1);
-  max-height: 90vh;
-  overflow-y: auto;
+  scrollbar-width: none;
 }
+#lb-panel::-webkit-scrollbar { display: none; }
 #lightbox.active #lb-panel { transform: scale(1) translateY(0); }
 
+/* Botón X fijo, siempre visible */
 #lb-close {
-  position: absolute;
-  top: -3.2rem;
-  right: 0;
-  width: 48px; 
-  height: 48px;
+  position: fixed;
+  top: 1.2rem; right: 1.2rem;
+  width: 50px; height: 50px;
   border-radius: 50%;
-  background: rgba(244,167,185,0.15);
-  border: 2px solid rgba(244,167,185,0.4);
+  background: rgba(13,5,8,.85);
+  border: 2px solid rgba(244,167,185,.55);
   color: var(--white);
-  font-size: 1.8rem;
-  line-height: 1;
+  font-size: 1.5rem; line-height: 1;
   cursor: pointer;
-  display: flex; 
-  align-items: center; 
-  justify-content: center;
-  transition: background .25s, transform .25s, box-shadow .25s;
-  backdrop-filter: blur(10px);
-  z-index: 20;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 0 3px rgba(244,167,185,.12), 0 8px 24px rgba(0,0,0,.6);
+  visibility: hidden; opacity: 0;
+  transition: background .2s, transform .25s, opacity .3s, visibility .3s;
+  z-index: 2600;
 }
-
-#lb-close:hover {
-  background: rgba(244,167,185,0.28);
-  transform: rotate(90deg);
-  box-shadow: 0 0 20px rgba(244,167,185,0.4);
-}
-
-#lb-close:active {
-  transform: rotate(90deg) scale(0.95);
-}
+#lightbox.active #lb-close { visibility: visible; opacity: 1; }
+#lb-close:hover { background: rgba(192,82,111,.5); border-color: var(--rose); transform: rotate(90deg) scale(1.1); }
 
 #lb-img-frame {
-  width: 100%;
-  border-radius: 22px;
-  overflow: hidden;
-  border: 1px solid rgba(244,167,185,0.2);
-  box-shadow:
-    0 0 0 1px rgba(244,167,185,0.06),
-    0 30px 90px rgba(192,82,111,0.35),
-    0 60px 120px rgba(0,0,0,0.5);
-  background: rgba(255,248,251,0.03);
+  width: 100%; border-radius: 20px; overflow: hidden;
+  border: 1px solid rgba(244,167,185,.2);
+  box-shadow: 0 30px 90px rgba(192,82,111,.35), 0 60px 120px rgba(0,0,0,.5);
+  background: #0d0508;
+  height: clamp(320px, 55vh, 520px);
   position: relative;
-  height: 500px;
-  max-height: 60vh;
-  touch-action: manipulation;
 }
 
 #lb-img-container {
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   overflow: hidden;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
+  touch-action: none;
 }
 
 #lb-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
+  max-width: 100%; max-height: 100%;
+  width: auto; height: auto;
+  object-fit: contain; display: block;
+  will-change: transform;
+  transform-origin: center center;
   cursor: grab;
-  user-select: none;
-  transition: transform 0.1s ease-out;
-  transform-origin: center;
+  user-select: none; -webkit-user-drag: none;
+  transition: none;
 }
+#lb-img.snap { transition: transform .25s cubic-bezier(.23,1,.32,1); }
 
-#lb-img:active {
-  cursor: grabbing;
-}
-
-/* ═════════════════════════════════════════
-   ZOOM HINT ANIMATION
-   ═════════════════════════════════════════ */
 #lb-zoom-hint {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
+  position: absolute; bottom: 14px; left: 50%;
   transform: translateX(-50%);
-  pointer-events: none;
-  z-index: 5;
-  opacity: 0;
-  animation: zoomHintFadeIn 0.6s ease-out forwards;
+  pointer-events: none; z-index: 5;
+  opacity: 0; animation: zHintIn .5s .4s ease forwards;
+}
+#lb-zoom-hint.hide { animation: zHintOut .35s ease forwards; }
+@keyframes zHintIn  { to { opacity: 1; } }
+@keyframes zHintOut { to { opacity: 0; } }
+
+.zoom-badge {
+  display: flex; align-items: center; gap: .4rem;
+  padding: .35rem .9rem;
+  background: rgba(13,5,8,.75); border: 1px solid rgba(244,167,185,.35);
+  border-radius: 100px; backdrop-filter: blur(8px);
+  font-family: 'Jost', sans-serif; font-size: .62rem;
+  letter-spacing: .25em; text-transform: uppercase;
+  color: rgba(255,248,251,.75);
 }
 
-@keyframes zoomHintFadeIn {
-  0% {
-    opacity: 0;
-    transform: translateX(-50%) scale(0.8);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-  }
-}
-
-#lb-zoom-hint.hide {
-  animation: zoomHintFadeOut 0.4s ease-out forwards;
-}
-
-@keyframes zoomHintFadeOut {
-  0% {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(-50%) scale(0.8);
-  }
-}
-
-.zoom-icon {
-  width: 50px;
-  height: 50px;
-  background: rgba(244,167,185,0.2);
-  border: 2px solid rgba(244,167,185,0.5);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  animation: zoomIconPulse 1.5s ease-in-out infinite;
-}
-
-@keyframes zoomIconPulse {
-  0%, 100% {
-    background: rgba(244,167,185,0.15);
-    border-color: rgba(244,167,185,0.4);
-    transform: scale(1);
-  }
-  50% {
-    background: rgba(244,167,185,0.25);
-    border-color: rgba(244,167,185,0.6);
-    transform: scale(1.1);
-  }
-}
-
-.zoom-arrows {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.arrow {
-  position: absolute;
-  font-size: 18px;
-  color: rgba(244,167,185,0.7);
-  animation: arrowBounce 1.2s ease-in-out infinite;
-}
-
-.arrow-up {
-  top: 5px;
-  animation-delay: 0s;
-}
-
-.arrow-down {
-  bottom: 5px;
-  animation-delay: 0.3s;
-}
-
-.arrow-left {
-  left: 5px;
-  animation-delay: 0.15s;
-}
-
-.arrow-right {
-  right: 5px;
-  animation-delay: 0.45s;
-}
-
-@keyframes arrowBounce {
-  0%, 100% {
-    opacity: 0.4;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.2);
-  }
-}
-
-#lb-content {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-}
+#lb-content { width: 100%; display: flex; flex-direction: column; gap: 1rem; }
 
 #lb-title {
   font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--white);
-  text-align: center;
+  font-size: 1.4rem; font-weight: 600; color: var(--white); text-align: center;
 }
-
 #lb-description {
-  font-family: 'Jost', sans-serif;
-  font-size: 0.85rem;
-  line-height: 1.6;
+  font-family: 'Jost', sans-serif; font-size: .82rem; line-height: 1.65;
   color: rgba(255,248,251,.8);
-  text-align: left;
-  background: rgba(244,167,185,0.05);
-  padding: 1.2rem;
-  border-radius: 12px;
-  border-left: 3px solid var(--rose);
+  background: rgba(244,167,185,.05); padding: 1.1rem 1.2rem;
+  border-radius: 12px; border-left: 3px solid var(--rose);
 }
-
 #lb-wa-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: .75rem;
-  padding: 1rem 2.8rem;
-  background: linear-gradient(135deg, #25D366, #128C7E);
-  color: #fff;
-  font-family: 'Jost', sans-serif;
-  font-weight: 300;
-  font-size: .8rem;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  text-decoration: none;
-  border-radius: 100px;
-  box-shadow: 0 14px 44px rgba(37,211,102,0.42);
+  display: inline-flex; align-items: center; justify-content: center; gap: .75rem;
+  padding: 1rem 2.8rem; width: 100%;
+  background: linear-gradient(135deg,#25D366,#128C7E);
+  color: #fff; font-family: 'Jost', sans-serif; font-weight: 300;
+  font-size: .8rem; letter-spacing: .22em; text-transform: uppercase;
+  text-decoration: none; border-radius: 100px;
+  box-shadow: 0 14px 44px rgba(37,211,102,.42);
   transition: transform .3s, box-shadow .3s;
-  width: 100%;
-  justify-content: center;
 }
-#lb-wa-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 20px 56px rgba(37,211,102,0.58);
-}
+#lb-wa-btn:hover { transform: translateY(-3px); box-shadow: 0 20px 56px rgba(37,211,102,.58); }
 
-/* ─────────────────────────────────────────────
-   BACKGROUND LAYERS
-───────────────────────────────────────────── */
+/* ══════════════════════════════════════════
+   BACKGROUND
+══════════════════════════════════════════ */
 #bg-video {
   position: fixed; inset: 0; z-index: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  pointer-events: none;
+  width: 100%; height: 100%; object-fit: cover; pointer-events: none;
 }
 #bg-vignette {
   position: fixed; inset: 0; z-index: 1;
   background:
-    radial-gradient(ellipse at center, rgba(13,5,8,.0) 20%, rgba(13,5,8,.8) 100%),
+    radial-gradient(ellipse at center, rgba(13,5,8,0) 20%, rgba(13,5,8,.8) 100%),
     linear-gradient(180deg, rgba(13,5,8,.45) 0%, rgba(13,5,8,.1) 40%, rgba(13,5,8,.6) 100%);
 }
 #grain {
-  position: fixed; inset: 0; z-index: 2;
-  pointer-events: none; opacity: .04;
+  position: fixed; inset: 0; z-index: 2; pointer-events: none; opacity: .04;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 200px;
 }
-#petals-canvas {
-  position: fixed; inset: 0; z-index: 3;
-  pointer-events: none;
-}
+#petals-canvas { position: fixed; inset: 0; z-index: 3; pointer-events: none; }
 
-/* ─────────────────────────────────────────────
-   MAIN APP
-───────────────────────────────────────────── */
+/* ══════════════════════════════════════════
+   APP
+══════════════════════════════════════════ */
 #app {
   position: relative; z-index: 10;
   min-height: 100vh;
   display: flex; flex-direction: column; align-items: center;
-  opacity: 1;
-  transition: opacity .9s;
 }
-#app.visible { opacity: 1; }
 
-/* ─────────────────────────────────────────────
+/* ══════════════════════════════════════════
    HEADER
-───────────────────────────────────────────── */
+══════════════════════════════════════════ */
 header {
-  width: 100%;
-  padding: 1.1rem 3rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(13,5,8,.55);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(244,167,185,.09);
-  position: sticky;
-  top: 0;
-  z-index: 200;
+  width: 100%; padding: 1rem 2.5rem;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(13,5,8,.7); backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(244,167,185,.1);
+  position: sticky; top: 0; z-index: 200;
 }
-
 .header-logo {
-  height: 50px;
-  width: auto;
-  filter: drop-shadow(0 0 18px rgba(244,167,185,.5));
-  transition: filter .3s;
+  height: 46px; width: auto; flex-shrink: 0;
+  filter: drop-shadow(0 0 18px rgba(244,167,185,.5)); transition: filter .3s;
 }
 .header-logo:hover { filter: drop-shadow(0 0 28px rgba(244,167,185,.75)); }
 
 .logo-text {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(.9rem, 1.8vw, 1.35rem);
-  font-weight: 400;
-  letter-spacing: .1em;
-  color: var(--white);
+  font-size: clamp(.8rem,1.6vw,1.25rem); font-weight: 400;
+  letter-spacing: .1em; color: var(--white);
   text-shadow: 0 0 30px rgba(244,167,185,.5);
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  position: absolute; left: 50%; transform: translateX(-50%);
+  white-space: nowrap;
 }
 .logo-text span { color: var(--rose); font-style: italic; }
 
-nav { display: flex; gap: 2rem; align-items: center; }
-nav a {
-  font-weight: 200;
-  font-size: .74rem;
-  letter-spacing: .26em;
-  text-transform: uppercase;
-  color: rgba(255,248,251,.6);
-  text-decoration: none;
-  transition: color .3s;
+nav.desktop {
+  display: flex; gap: 1.8rem; align-items: center; flex-shrink: 0;
 }
-nav a:hover { color: var(--rose); }
+nav.desktop a {
+  font-weight: 200; font-size: .72rem; letter-spacing: .26em;
+  text-transform: uppercase; color: rgba(255,248,251,.6);
+  text-decoration: none; transition: color .3s; white-space: nowrap;
+}
+nav.desktop a:hover { color: var(--rose); }
 
-/* ─────────────────────────────────────────────
+/* Nav mobile — barra inferior */
+nav.mobile {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
+  background: rgba(13,5,8,.92); backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(244,167,185,.15);
+  padding: .65rem 0 calc(.65rem + env(safe-area-inset-bottom));
+  justify-content: space-around; align-items: center;
+}
+nav.mobile a {
+  display: flex; flex-direction: column; align-items: center; gap: .25rem;
+  text-decoration: none; color: rgba(255,248,251,.55);
+  font-family: 'Jost', sans-serif; font-size: .58rem;
+  letter-spacing: .18em; text-transform: uppercase;
+  transition: color .25s; flex: 1;
+}
+nav.mobile a:hover, nav.mobile a:active { color: var(--rose); }
+nav.mobile a svg { width: 20px; height: 20px; }
+
+/* ══════════════════════════════════════════
    HERO
-───────────────────────────────────────────── */
+══════════════════════════════════════════ */
 #hero {
-  min-height: 92vh;
-  width: 100%;
+  min-height: 92vh; width: 100%;
   display: flex; flex-direction: column;
   justify-content: center; align-items: center;
-  text-align: center;
-  padding: 4rem 2rem;
+  text-align: center; padding: 4rem 2rem;
 }
 .eyebrow {
-  font-weight: 200;
-  font-size: .72rem;
-  letter-spacing: .52em;
-  text-transform: uppercase;
-  color: var(--rose);
-  margin-bottom: 1.6rem;
-  opacity: 0;
-  animation: fadeUp .9s .3s forwards;
+  font-weight: 200; font-size: .72rem; letter-spacing: .52em;
+  text-transform: uppercase; color: var(--rose); margin-bottom: 1.6rem;
 }
 h1 {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(3.2rem, 9vw, 8.5rem);
-  font-weight: 700;
-  line-height: .95;
-  letter-spacing: -.02em;
-  opacity: 0;
-  animation: fadeUp 1s .5s forwards;
+  font-size: clamp(3.2rem,9vw,8.5rem); font-weight: 700;
+  line-height: .95; letter-spacing: -.02em;
 }
-h1 em {
-  font-style: italic;
-  color: transparent;
-  -webkit-text-stroke: 1px var(--rose);
-  display: block;
-}
+h1 em { font-style: italic; color: transparent; -webkit-text-stroke: 1px var(--rose); display: block; }
 .hero-sub {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1rem, 2.4vw, 1.32rem);
-  font-weight: 300;
-  font-style: italic;
-  color: rgba(255,248,251,.7);
-  margin-top: 1.6rem;
-  max-width: 480px;
-  line-height: 1.75;
-  opacity: 0;
-  animation: fadeUp 1s .75s forwards;
+  font-size: clamp(1rem,2.4vw,1.32rem); font-weight: 300; font-style: italic;
+  color: rgba(255,248,251,.7); margin-top: 1.6rem; max-width: 480px; line-height: 1.75;
 }
 .hero-cta {
-  margin-top: 3rem;
-  display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
-  opacity: 0;
-  animation: fadeUp 1s 1s forwards;
+  margin-top: 3rem; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
 }
 
 .btn-primary {
-  display: inline-flex; align-items: center; gap: .6rem;
-  padding: .95rem 2.6rem;
-  background: linear-gradient(135deg, var(--deep-rose), #8b1a3a);
-  color: var(--white);
-  font-weight: 300;
-  font-size: .78rem;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  text-decoration: none;
-  border-radius: 100px;
-  border: 1px solid rgba(244,167,185,.3);
+  display: inline-flex; align-items: center; gap: .6rem; padding: .95rem 2.6rem;
+  background: linear-gradient(135deg,var(--deep-rose),#8b1a3a); color: var(--white);
+  font-weight: 300; font-size: .78rem; letter-spacing: .22em; text-transform: uppercase;
+  text-decoration: none; border-radius: 100px; border: 1px solid rgba(244,167,185,.3);
   box-shadow: 0 0 32px rgba(192,82,111,.42), inset 0 1px 0 rgba(255,255,255,.1);
   transition: transform .3s, box-shadow .3s;
 }
-.btn-primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 0 56px rgba(192,82,111,.62), inset 0 1px 0 rgba(255,255,255,.15);
-}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 0 56px rgba(192,82,111,.62), inset 0 1px 0 rgba(255,255,255,.15); }
+
 .btn-secondary {
-  display: inline-flex; align-items: center; gap: .6rem;
-  padding: .95rem 2.6rem;
-  background: var(--glass);
-  color: var(--white);
-  font-weight: 300;
-  font-size: .78rem;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  text-decoration: none;
-  border-radius: 100px;
-  border: 1px solid var(--glass-border);
-  backdrop-filter: blur(14px);
+  display: inline-flex; align-items: center; gap: .6rem; padding: .95rem 2.6rem;
+  background: var(--glass); color: var(--white); font-weight: 300; font-size: .78rem;
+  letter-spacing: .22em; text-transform: uppercase; text-decoration: none;
+  border-radius: 100px; border: 1px solid var(--glass-border); backdrop-filter: blur(14px);
   transition: transform .3s, background .3s;
 }
-.btn-secondary:hover {
-  transform: translateY(-3px);
-  background: rgba(244,167,185,.14);
-}
+.btn-secondary:hover { transform: translateY(-3px); background: rgba(244,167,185,.14); }
 
-/* ─────────────────────────────────────────────
-   PRODUCTS SECTION
-───────────────────────────────────────────── */
+/* ══════════════════════════════════════════
+   PRODUCTS
+══════════════════════════════════════════ */
 #productos {
-  width: 100%;
-  padding: 5rem 2rem 9rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 100%; padding: 5rem 2rem 9rem;
+  display: flex; flex-direction: column; align-items: center;
 }
 .section-label {
-  font-weight: 200;
-  font-size: .68rem;
-  letter-spacing: .58em;
-  text-transform: uppercase;
-  color: var(--rose);
-  margin-bottom: 1rem;
-  text-align: center;
+  font-weight: 200; font-size: .68rem; letter-spacing: .58em;
+  text-transform: uppercase; color: var(--rose); margin-bottom: 1rem; text-align: center;
 }
 .section-title {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(2rem, 5vw, 3.8rem);
-  font-weight: 400;
-  text-align: center;
-  margin-bottom: .5rem;
-  line-height: 1.1;
+  font-size: clamp(2rem,5vw,3.8rem); font-weight: 400;
+  text-align: center; margin-bottom: .5rem; line-height: 1.1;
 }
 .section-title em { font-style: italic; color: var(--rose); }
-
 .section-desc {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.08rem;
-  font-style: italic;
-  color: rgba(255,248,251,.58);
-  text-align: center;
-  margin-bottom: 4rem;
-  max-width: 440px;
+  font-family: 'Cormorant Garamond', serif; font-size: 1.08rem; font-style: italic;
+  color: rgba(255,248,251,.58); text-align: center; margin-bottom: 4rem; max-width: 440px;
 }
 
-/* ─────────────────────────────────────────────
-   PRODUCT GRID
-───────────────────────────────────────────── */
 .products-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.6rem;
-  width: 100%;
-  max-width: 1100px;
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1.6rem; width: 100%; max-width: 1100px;
 }
 
-/* ─────────────────────────────────────────────
-   PRODUCT CARD
-───────────────────────────────────────────── */
 .product-card {
-  background: rgba(255,248,251,.04);
-  border: 1px solid rgba(244,167,185,.1);
-  border-radius: 22px;
-  overflow: hidden;
-  transition:
-    transform .45s cubic-bezier(.23,1,.32,1),
-    box-shadow .45s,
-    border-color .45s;
-  cursor: pointer;
-  position: relative;
+  background: rgba(255,248,251,.04); border: 1px solid rgba(244,167,185,.1);
+  border-radius: 22px; overflow: hidden; cursor: pointer;
+  transition: transform .45s cubic-bezier(.23,1,.32,1), box-shadow .45s, border-color .45s;
 }
 .product-card:hover {
   transform: translateY(-10px) scale(1.01);
-  box-shadow:
-    0 32px 80px rgba(192,82,111,.28),
-    0 0 0 1px rgba(244,167,185,.22);
+  box-shadow: 0 32px 80px rgba(192,82,111,.28), 0 0 0 1px rgba(244,167,185,.22);
   border-color: rgba(244,167,185,.28);
 }
-
-.card-img-wrap {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-}
+.card-img-wrap { position: relative; width: 100%; aspect-ratio: 3/4; overflow: hidden; }
 .card-img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+  width: 100%; height: 100%; object-fit: cover; display: block;
   transition: transform .65s cubic-bezier(.23,1,.32,1);
 }
-.product-card:hover .card-img-wrap img {
-  transform: scale(1.07);
-}
+.product-card:hover .card-img-wrap img { transform: scale(1.07); }
 
-/* hover overlay */
 .card-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(13,5,8,.72) 0%,
-    rgba(13,5,8,.0) 60%
-  );
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding-bottom: 1.4rem;
-  opacity: 0;
-  transition: opacity .35s;
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(13,5,8,.72) 0%, rgba(13,5,8,0) 60%);
+  display: flex; align-items: flex-end; justify-content: center;
+  padding-bottom: 1.4rem; opacity: 0; transition: opacity .35s;
 }
 .product-card:hover .card-overlay { opacity: 1; }
-
 .overlay-hint {
-  font-family: 'Jost', sans-serif;
-  font-size: .65rem;
-  letter-spacing: .4em;
-  text-transform: uppercase;
-  color: rgba(255,248,251,.85);
-  display: flex;
-  align-items: center;
-  gap: .5rem;
+  font-family: 'Jost', sans-serif; font-size: .65rem; letter-spacing: .4em;
+  text-transform: uppercase; color: rgba(255,248,251,.85);
+  display: flex; align-items: center; gap: .5rem;
 }
-.overlay-hint svg { opacity: .8; }
 
 .card-foot {
-  padding: .9rem 1.2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  background: rgba(255,248,251,.025);
-  border-top: 1px solid rgba(244,167,185,.08);
+  padding: .9rem 1.2rem; display: flex; justify-content: center; align-items: center;
+  gap: 1rem; background: rgba(255,248,251,.025); border-top: 1px solid rgba(244,167,185,.08);
 }
-
 .product-number {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--rose);
-  text-shadow: 0 0 15px rgba(244,167,185,0.5);
-  min-width: 30px;
-  text-align: center;
+  font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 600;
+  color: var(--rose); text-shadow: 0 0 15px rgba(244,167,185,.5);
+  min-width: 30px; text-align: center;
 }
-
 .btn-wa {
-  display: inline-flex; 
-  align-items: center; 
-  gap: .5rem;
-  padding: .62rem 1.6rem;
-  background: linear-gradient(135deg, #25D366, #128C7E);
-  border-radius: 100px;
-  border: none;
-  color: #fff;
-  font-family: 'Jost', sans-serif;
-  font-size: .7rem;
-  font-weight: 300;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  text-decoration: none;
-  cursor: pointer;
-  transition: transform .3s, box-shadow .3s;
-  box-shadow: 0 6px 22px rgba(37,211,102,.28);
-  flex: 1;
+  display: inline-flex; align-items: center; gap: .5rem; padding: .62rem 1.6rem;
+  background: linear-gradient(135deg,#25D366,#128C7E); border-radius: 100px;
+  border: none; color: #fff; font-family: 'Jost', sans-serif; font-size: .7rem;
+  font-weight: 300; letter-spacing: .18em; text-transform: uppercase;
+  text-decoration: none; cursor: pointer;
+  transition: transform .3s, box-shadow .3s; box-shadow: 0 6px 22px rgba(37,211,102,.28); flex: 1;
 }
-.btn-wa:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 32px rgba(37,211,102,.45);
-}
+.btn-wa:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(37,211,102,.45); }
 
-/* ─────────────────────────────────────────────
+/* ══════════════════════════════════════════
    FLOATING WA
-───────────────────────────────────────────── */
+══════════════════════════════════════════ */
 #float-wa {
-  position: fixed;
-  bottom: 2.5rem; right: 2.5rem;
-  z-index: 100;
-  width: 62px; height: 62px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #25D366, #128C7E);
+  position: fixed; bottom: 4.5rem; right: 1.5rem; z-index: 290;
+  width: 58px; height: 58px; border-radius: 50%;
+  background: linear-gradient(135deg,#25D366,#128C7E);
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 8px 32px rgba(37,211,102,.48);
-  text-decoration: none;
+  box-shadow: 0 8px 32px rgba(37,211,102,.48); text-decoration: none;
   animation: pulseWa 2.6s ease infinite;
 }
-#float-wa svg { width: 28px; height: 28px; }
+#float-wa svg { width: 26px; height: 26px; }
 
-/* ─────────────────────────────────────────────
+/* ══════════════════════════════════════════
    SCROLL HINT
-───────────────────────────────────────────── */
+══════════════════════════════════════════ */
 #scroll-hint {
-  position: fixed;
-  bottom: 3rem; left: 3rem;
-  z-index: 20;
+  position: fixed; bottom: 3rem; left: 3rem; z-index: 20;
   display: flex; flex-direction: column; align-items: center; gap: .5rem;
-  opacity: 0;
-  animation: fadeIn 1s 4s forwards;
 }
 #scroll-hint span {
-  font-size: .58rem;
-  letter-spacing: .38em;
-  text-transform: uppercase;
-  color: rgba(255,248,251,.32);
-  writing-mode: vertical-rl;
+  font-size: .58rem; letter-spacing: .38em; text-transform: uppercase;
+  color: rgba(255,248,251,.32); writing-mode: vertical-rl;
 }
 #scroll-hint-line {
   width: 1px; height: 52px;
   background: linear-gradient(to bottom, var(--rose), transparent);
-  animation: lineGrow 1.6s 4.5s ease infinite;
+  animation: lineGrow 1.6s ease infinite;
 }
 
-/* ─────────────────────────────────────────────
+/* ══════════════════════════════════════════
    FOOTER
-───────────────────────────────────────────── */
+══════════════════════════════════════════ */
 footer {
-  width: 100%;
-  padding: 3.5rem 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.2rem;
-  border-top: 1px solid rgba(244,167,185,.09);
-  text-align: center;
+  width: 100%; padding: 3.5rem 2rem 6rem;
+  display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
+  border-top: 1px solid rgba(244,167,185,.09); text-align: center;
 }
-.footer-logo {
-  height: 42px;
-  width: auto;
-  opacity: .45;
-  filter: grayscale(1) brightness(3);
-}
-footer p {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: .92rem;
-  font-style: italic;
-  color: rgba(255,248,251,.32);
-}
+.footer-logo { height: 42px; width: auto; opacity: .45; filter: grayscale(1) brightness(3); }
+footer p { font-family: 'Cormorant Garamond', serif; font-size: .92rem; font-style: italic; color: rgba(255,248,251,.32); }
 footer .heart { color: var(--rose); }
 
-/* ─────────────────────────────────────────────
+/* ══════════════════════════════════════════
    KEYFRAMES
-───────────────────────────────────────────── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn { to { opacity: 1; } }
-@keyframes pulseWa {
-  0%,100% { box-shadow: 0 8px 32px rgba(37,211,102,.48); }
-  50%     { box-shadow: 0 8px 52px rgba(37,211,102,.72); transform: scale(1.06); }
-}
-@keyframes lineGrow {
-  0%   { transform: scaleY(0); transform-origin: top;    opacity: 0; }
-  50%  { transform: scaleY(1); opacity: 1; }
-  100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
-}
+══════════════════════════════════════════ */
+@keyframes fadeUp  { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn  { to { opacity: 1; } }
+@keyframes pulseWa { 0%,100%{box-shadow:0 8px 32px rgba(37,211,102,.48)} 50%{box-shadow:0 8px 52px rgba(37,211,102,.72);transform:scale(1.06)} }
+@keyframes lineGrow { 0%{transform:scaleY(0);transform-origin:top;opacity:0} 50%{transform:scaleY(1);opacity:1} 100%{transform:scaleY(0);transform-origin:bottom;opacity:0} }
 
-/* ─────────────────────────────────────────────
+/* ══════════════════════════════════════════
    RESPONSIVE
-───────────────────────────────────────────── */
+══════════════════════════════════════════ */
 @media (max-width: 960px) {
-  .products-grid { grid-template-columns: repeat(2, 1fr); }
+  .products-grid { grid-template-columns: repeat(2,1fr); }
 }
 @media (max-width: 640px) {
-  header { padding: 1rem 1.4rem; }
+  header { padding: .85rem 1.2rem; }
   .header-logo { height: 38px; }
   .logo-text { display: none; }
-  nav { display: none; }
+  nav.desktop { display: none; }
+  nav.mobile  { display: flex; }
+  #productos  { padding-bottom: 6rem; }
+  footer      { padding-bottom: 5rem; }
+  #float-wa   { bottom: 5rem; right: 1rem; width: 52px; height: 52px; }
   #scroll-hint { display: none; }
-  .products-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-  #float-wa { width: 56px; height: 56px; bottom: 1.8rem; right: 1.8rem; }
-  #lb-panel { gap: 1.3rem; }
-  
-  #splash-logo-img { width: min(260px, 70vw); }
-  .curtain-half { width: 51%; }
-  
-  .card-foot { 
-    flex-direction: column;
-    gap: 0.8rem;
-  }
-  
-  .product-number {
-    width: 100%;
-  }
-  
-  .btn-wa {
-    flex: 1 !important;
-    width: 100%;
-  }
-  
-  #lb-close {
-    top: -2.8rem;
-    right: -0.5rem;
-    width: 44px;
-    height: 44px;
-    font-size: 1.6rem;
-  }
-  
-  #lb-description {
-    font-size: 0.8rem;
-    padding: 1rem;
-  }
-  
-  #lb-img-frame {
-    height: 400px;
-  }
-  
-  .zoom-icon {
-    width: 45px;
-    height: 45px;
-    font-size: 20px;
-  }
-  
-  .arrow {
-    font-size: 16px;
-  }
+  .products-grid { grid-template-columns: repeat(2,1fr); gap: .9rem; }
+  #lb-panel { gap: 1rem; padding-bottom: .5rem; }
+  #lb-img-frame { height: clamp(280px,52vw,380px); }
+  .card-foot { flex-direction: column; gap: .7rem; }
+  .product-number { width: 100%; }
+  .btn-wa { flex: 1!important; width: 100%; }
 }
 @media (max-width: 400px) {
   .products-grid { grid-template-columns: 1fr; }
-  #splash-logo-img { width: min(220px, 65vw); }
-  
-  #lb-img-frame {
-    height: 350px;
-  }
-  
-  #lb-close {
-    width: 42px;
-    height: 42px;
-    font-size: 1.4rem;
-  }
-  
-  .zoom-icon {
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
-  }
-  
-  .arrow {
-    font-size: 14px;
-  }
+  #lb-img-frame { height: clamp(250px,65vw,320px); }
 }
 
 </style>
 </head>
 <body>
 
-<!-- ═══════════════ SPLASH SCREEN ═══════════════ -->
-<div id="splash">
-  <!-- Rayos de luz de fondo -->
-  <div id="splash-rings-container">
-    <div id="splash-ring-1" class="splash-ring"></div>
-    <div id="splash-ring-2" class="splash-ring"></div>
-    <div id="splash-ring-3" class="splash-ring"></div>
-  </div>
-
-  <!-- Cortinas -->
-  <div id="curtain-left" class="curtain-half"></div>
-  <div id="curtain-right" class="curtain-half"></div>
-  <div id="curtain-seam"></div>
-
-  <!-- Contenido central - VISIBLE DESDE EL INICIO -->
-  <div id="splash-content">
-    <img src="imgramos/logosandra.png" id="splash-logo-img" alt="Sandra Flores">
-    <div id="splash-divider">✦</div>
-    <div id="splash-tagline">Samer Flores</div>
-    <div id="splash-subtitle">Día de la Madre 2025</div>
-  </div>
-
-  <!-- Hint -->
-  <div id="splash-hint">Abriendo la presentación...</div>
-</div>
-
-<!-- ═══════════════ LIGHTBOX ═══════════════ -->
+<!-- LIGHTBOX -->
 <div id="lightbox" role="dialog" aria-modal="true">
   <div id="lb-backdrop"></div>
+  <button id="lb-close" aria-label="Cerrar">✕</button>
   <div id="lb-panel">
-    <button id="lb-close" aria-label="Cerrar producto">✕</button>
     <div id="lb-img-frame">
       <div id="lb-img-container">
         <img id="lb-img" src="" alt="Arreglo floral">
       </div>
       <div id="lb-zoom-hint">
-        <div class="zoom-icon">
-          🔍
-          <div class="zoom-arrows">
-            <div class="arrow arrow-up">▲</div>
-            <div class="arrow arrow-down">▼</div>
-            <div class="arrow arrow-left">◄</div>
-            <div class="arrow arrow-right">►</div>
-          </div>
-        </div>
+        <div class="zoom-badge">🔍 Pellizca o usa la rueda para hacer zoom</div>
       </div>
     </div>
     <div id="lb-content">
@@ -1293,7 +465,7 @@ footer .heart { color: var(--rose); }
   </div>
 </div>
 
-<!-- ═══════════════ BACKGROUND ═══════════════ -->
+<!-- BACKGROUND -->
 <div id="grain"></div>
 <canvas id="petals-canvas"></canvas>
 <video id="bg-video" autoplay muted loop playsinline>
@@ -1301,13 +473,11 @@ footer .heart { color: var(--rose); }
 </video>
 <div id="bg-vignette"></div>
 
-<!-- Scroll hint -->
 <div id="scroll-hint">
   <div id="scroll-hint-line"></div>
   <span>Scroll</span>
 </div>
 
-<!-- Floating WhatsApp -->
 <a id="float-wa"
    href="https://wa.me/51992741960?text=Hola!%20Vi%20sus%20arreglos%20para%20el%20D%C3%ADa%20de%20la%20Madre%20y%20me%20interesa%20hacer%20un%20pedido%20%F0%9F%92%90"
    target="_blank" rel="noopener" aria-label="WhatsApp">
@@ -1316,21 +486,40 @@ footer .heart { color: var(--rose); }
   </svg>
 </a>
 
-<!-- ═══════════════ MAIN APP ═══════════════ -->
+<!-- MAIN APP -->
 <div id="app">
 
-  <!-- Header -->
   <header>
-    <img src="imgramos/logosandra.png" alt="Sandra Flores" class="header-logo">
+    <img src="imgramos/logosandra.png" alt="Samer Flores" class="header-logo">
     <div class="logo-text">Samer <span>&amp;</span> Floreria y regalos</div>
-    <nav>
+    <nav class="desktop">
       <a href="#hero">Inicio</a>
       <a href="#productos">Arreglos</a>
       <a href="https://wa.me/51992741960" target="_blank" rel="noopener">Contacto</a>
     </nav>
   </header>
 
-  <!-- Hero -->
+  <nav class="mobile">
+    <a href="#hero">
+      <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+        <path d="M3 12L12 3l9 9M4 10v10a1 1 0 001 1h5v-6h4v6h5a1 1 0 001-1V10"/>
+      </svg>
+      Inicio
+    </a>
+    <a href="#productos">
+      <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+        <path d="M12 21.593C6.37 16.054 1 11.296 1 7.191 1 3.4 4.068 2 6.281 2c1.312 0 4.151.501 5.719 4.457C13.59 2.49 16.464 2 17.726 2 20.267 2 23 3.621 23 7.181c0 4.069-5.136 8.625-11 14.412z"/>
+      </svg>
+      Arreglos
+    </a>
+    <a href="https://wa.me/51992741960" target="_blank" rel="noopener">
+      <svg fill="currentColor" viewBox="0 0 24 24">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      Contacto
+    </a>
+  </nav>
+
   <section id="hero">
     <p class="eyebrow">✦ Día de la Madre 2026 ✦</p>
     <h1>Para la mujer<br><em>más especial</em></h1>
@@ -1352,7 +541,6 @@ footer .heart { color: var(--rose); }
     </div>
   </section>
 
-  <!-- Products -->
   <section id="productos">
     <p class="section-label">✦ Colección especial ✦</p>
     <h2 class="section-title">Nuestros <em>Arreglos</em></h2>
@@ -1360,60 +548,48 @@ footer .heart { color: var(--rose); }
     <div class="products-grid" id="grid"></div>
   </section>
 
-  <!-- Footer -->
   <footer>
-    <img src="imgramos/logosandra.png" alt="Sandra Flores" class="footer-logo">
+    <img src="imgramos/logosandra.png" alt="Samer Flores" class="footer-logo">
     <p>Hecho con <span class="heart">♥</span> para celebrar a mamá — Samer floreria y regalos © 2026</p>
   </footer>
 
-</div><!-- /#app -->
-
+</div>
 
 <script>
-/* ══════════════════════════════════════════════════════════════
-   ⚙  CONFIGURACIÓN DE PRODUCTOS
-   ══════════════════════════════════════════════════════════════ */
-
 const WA_NUMBER = '51992741960';
 
 const products = [
-  { id: 1,  img: 'imgramos/producto2/fl1.jpeg', title: 'Ramo Azul Temático', description: 'Ramo en tonos azules. Incluye: 1 peluche de pingüino, 3 rosas eternas azules, 1 moto Hot Wheels, 2 chocolates Vizzio y tarjeta.' },
-  { id: 2,  img: 'imgramos/producto2/fl2.jpeg', title: 'Osito Rosa Elegante', description: 'Ramo rosado elegante. Incluye: Peluche de Pantera Rosa, rosas eternas rojas y rosadas, mini corona dorada, mariposa y tarjeta "Te amo".' },
-  { id: 3,  img: 'imgramos/producto2/fl3.jpeg', title: 'Clásico Blanco Dorado', description: 'Ramo clásico blanco con dorado. Incluye: Rosas eternas rojas, detalles de flores blancas, mariposa dorada, lazo rojo y cinta "Feliz día amor".' },
-  { id: 4,  img: 'imgramos/producto2/fl5.jpeg', title: 'Love Romántico', description: 'Ramo rosado temático "Love". Incluye: Rosas eternas rojas, mariposa dorada, lazo rojo y cinta decorativa "Te amo".' },
-  { id: 5,  img: 'imgramos/producto2/fl6.jpeg', title: 'Artesanal Blanco', description: 'Ramo artesanal blanco. Incluye: Flores rojas de textura aterciopelada, corazón rojo decorativo, mariposas rojas y lazo a juego.' },
-  { id: 6,  img: 'imgramos/producto2/fl7.jpeg', title: 'San Valentín Ovejita', description: 'Ramo romántico blanco con corazones. Incluye: Peluche de ovejita sosteniendo un tulipán, rosas eternas rojas y tarjeta de San Valentín.' },
-  { id: 7,  img: 'imgramos/producto2/fl8.jpeg', title: 'Princesa Oso Rosado', description: 'Ramo rosado "Princesa". Incluye: Peluche de oso rosado recostado, rosas eternas en rosado pastel, mariposa tornasol y tarjeta "Feliz Día Princesa".' },
-  { id: 8, img: 'imgramos/producto2/fl10.jpeg', title: 'Pingüino Love', description: 'Ramo temático "Love". Incluye: Peluche de pingüino con gorrito rosado, 3 rosas eternas rosadas, 2 bombones Bon o Bon y 1 chocolate Vizzio.' },
-  { id: 9, img: 'imgramos/producto2/fl12.jpeg', title: 'Rojo Clásico Mamá', description: 'Ramo rojo clásico. Incluye: Tulipanes y liliums rojos artesanales, margarita blanca con centro rojo, follaje verde, lazo rojo y tarjeta "Feliz día Mamá".' },
-  { id: 10, img: 'imgramos/producto2/fl13.jpeg', title: 'Primavera Mejor Mamá', description: 'Ramo primaveral para mamá. Incluye: Liliums en fucsia y rojo, un tulipán rojo artesanal, margaritas blancas, lazo rojo y tarjeta "Para la MEJOR Mamá del Mundo".' },
-  { id: 11, img: 'imgramos/producto2/fl14.jpeg', title: 'Fucsia Rojo Mamá', description: 'Ramo fucsia y rojo. Incluye: Liliums fucsias y rojos, tulipanes rojos artesanales, envoltura rosada, lazo rojo y tarjeta "Para la MEJOR Mamá del Mundo".' },
-  { id: 12, img: 'imgramos/producto2/fl15.jpeg', title: 'Rosado Mixto Pastel', description: 'Ramo rosado mixto. Incluye: Liliums fucsias y tulipanes rosa pastel artesanales, margarita blanca, follaje verde, lazo rosado y tarjeta para mamá.' },
-  { id: 13, img: 'imgramos/producto2/fl16.jpeg', title: 'Morado Elegante', description: 'Ramo morado elegante. Incluye: Liliums morados artesanales, margaritas blancas, mariposa dorada, lazo lila y tarjeta "Feliz día Mamá".' },
-  { id: 14, img: 'imgramos/producto2/fl17.jpeg', title: 'Tulipanes Especial', description: 'Ramo de tulipanes. Incluye: 5 tulipanes rojos artesanales, margaritas blancas con centro rojo, envoltura con lunares, lazo rojo y tarjeta especial para mamá.' },
-  { id: 15, img: 'imgramos/producto2/fl18.jpeg', title: 'Lila Rosado Delicado', description: 'Ramo en tonos lila y rosado. Incluye: Liliums y un tulipán rosados artesanales, margaritas blancas, follaje verde, lazo rosado y tarjeta especial para mamá.' },
-  { id: 16, img: 'imgramos/producto2/fl19.jpeg', title: 'Floral Rojo Radiante', description: 'Ramo floral rojo. Incluye: Liliums rojos artesanales, pequeñas margaritas blancas, follaje verde, lazo rojo y tarjeta "Para la MEJOR Mamá del Mundo".' },
-  { id: 17, img: 'imgramos/producto2/fl20.jpeg', title: 'Macetita Corazón', description: 'Macetita de flores eternas. Incluye: Maceta decorativa con detalle de corazón, 5 margaritas rosadas artesanales y tarjeta "Feliz día de la Madre".' },
-  { id: 18, img: 'imgramos/producto2/fl21.jpeg', title: 'Rojo Elegancia Negra', description: 'Ramo rojo elegante. Incluye: Tulipanes y liliums rojos artesanales, margaritas blancas con centro rojo, llamativa envoltura negra con estampado de margaritas, lazo rojo y tarjeta ilustrada para mamá.' },
-  { id: 19, img: 'imgramos/producto2/fl22.jpeg', title: 'Majestuoso Rosa Pastel', description: 'Ramo majestuoso rosado. Incluye: Una gran variedad de tulipanes, liliums y margaritas en tonos rosa pastel artesanales, follaje verde, envoltura rosa translúcida con detalles de encaje, lazo fucsia y tarjeta ilustrada para mamá.' },
-  { id: 20, img: 'imgramos/producto2/fl23.jpeg', title: 'Mini Rojo Corazón', description: 'Ramo mini rojo. Incluye: Un lilium rojo artesanal, una pequeña margarita blanca, un toque de follaje verde, envoltura rosada, lazo blanco translúcido y tarjeta "Dios te luciste con la MAMÁ que me diste".' },
-  { id: 21, img: 'imgramos/producto2/fl24.jpeg', title: 'Tulipán Individual', description: 'Tulipán individual. Incluye: Un tulipán rojo artesanal (limpiapipas), envoltura transparente y blanca con bordes dorados, lazo rojo y tarjeta "Porque soy tu MADRE y punto".' },
-  { id: 22, img: 'imgramos/producto2/fl25.jpeg', title: 'Girasol Artesanal', description: 'Ramo Girasol. Incluye: Un girasol grande de forma artesanal, envoltura verde menta con detalles dorados, lazo blanco con dorado y tarjeta "Feliz día Mamá".' },
-  { id: 23, img: 'imgramos/producto2/fl26.jpeg', title: 'Love Lila Rosa', description: 'Ramo "Love" lila. Incluye: Una rosa eterna (listón) de color lila, envoltura rosada con temática "Love", lazo rosado y tarjeta "Dios te luciste con la MAMÁ que me diste".' },
+  { id: 1,  img: 'imgramos/producto2/fl1.jpeg',  title: 'Ramo Azul Temático',    description: 'Ramo en tonos azules. Incluye: 1 peluche de pingüino, 3 rosas eternas azules, 1 moto Hot Wheels, 2 chocolates Vizzio y tarjeta.' },
+  { id: 2,  img: 'imgramos/producto2/fl2.jpeg',  title: 'Osito Rosa Elegante',   description: 'Ramo rosado elegante. Incluye: Peluche de Pantera Rosa, rosas eternas rojas y rosadas, mini corona dorada, mariposa y tarjeta "Te amo".' },
+  { id: 3,  img: 'imgramos/producto2/fl3.jpeg',  title: 'Clásico Blanco Dorado', description: 'Ramo clásico blanco con dorado. Incluye: Rosas eternas rojas, detalles de flores blancas, mariposa dorada, lazo rojo y cinta "Feliz día amor".' },
+  { id: 4,  img: 'imgramos/producto2/fl5.jpeg',  title: 'Love Romántico',        description: 'Ramo rosado temático "Love". Incluye: Rosas eternas rojas, mariposa dorada, lazo rojo y cinta decorativa "Te amo".' },
+  { id: 5,  img: 'imgramos/producto2/fl6.jpeg',  title: 'Artesanal Blanco',      description: 'Ramo artesanal blanco. Incluye: Flores rojas de textura aterciopelada, corazón rojo decorativo, mariposas rojas y lazo a juego.' },
+  { id: 6,  img: 'imgramos/producto2/fl7.jpeg',  title: 'San Valentín Ovejita',  description: 'Ramo romántico blanco con corazones. Incluye: Peluche de ovejita sosteniendo un tulipán, rosas eternas rojas y tarjeta de San Valentín.' },
+  { id: 7,  img: 'imgramos/producto2/fl8.jpeg',  title: 'Princesa Oso Rosado',   description: 'Ramo rosado "Princesa". Incluye: Peluche de oso rosado recostado, rosas eternas en rosado pastel, mariposa tornasol y tarjeta "Feliz Día Princesa".' },
+  { id: 8,  img: 'imgramos/producto2/fl10.jpeg', title: 'Pingüino Love',         description: 'Ramo temático "Love". Incluye: Peluche de pingüino con gorrito rosado, 3 rosas eternas rosadas, 2 bombones Bon o Bon y 1 chocolate Vizzio.' },
+  { id: 9,  img: 'imgramos/producto2/fl12.jpeg', title: 'Rojo Clásico Mamá',     description: 'Ramo rojo clásico. Incluye: Tulipanes y liliums rojos artesanales, margarita blanca con centro rojo, follaje verde, lazo rojo y tarjeta "Feliz día Mamá".' },
+  { id: 10, img: 'imgramos/producto2/fl13.jpeg', title: 'Primavera Mejor Mamá',  description: 'Ramo primaveral para mamá. Incluye: Liliums en fucsia y rojo, un tulipán rojo artesanal, margaritas blancas, lazo rojo y tarjeta "Para la MEJOR Mamá del Mundo".' },
+  { id: 11, img: 'imgramos/producto2/fl14.jpeg', title: 'Fucsia Rojo Mamá',      description: 'Ramo fucsia y rojo. Incluye: Liliums fucsias y rojos, tulipanes rojos artesanales, envoltura rosada, lazo rojo y tarjeta "Para la MEJOR Mamá del Mundo".' },
+  { id: 12, img: 'imgramos/producto2/fl15.jpeg', title: 'Rosado Mixto Pastel',   description: 'Ramo rosado mixto. Incluye: Liliums fucsias y tulipanes rosa pastel artesanales, margarita blanca, follaje verde, lazo rosado y tarjeta para mamá.' },
+  { id: 13, img: 'imgramos/producto2/fl16.jpeg', title: 'Morado Elegante',       description: 'Ramo morado elegante. Incluye: Liliums morados artesanales, margaritas blancas, mariposa dorada, lazo lila y tarjeta "Feliz día Mamá".' },
+  { id: 14, img: 'imgramos/producto2/fl17.jpeg', title: 'Tulipanes Especial',    description: 'Ramo de tulipanes. Incluye: 5 tulipanes rojos artesanales, margaritas blancas con centro rojo, envoltura con lunares, lazo rojo y tarjeta especial para mamá.' },
+  { id: 15, img: 'imgramos/producto2/fl18.jpeg', title: 'Lila Rosado Delicado',  description: 'Ramo en tonos lila y rosado. Incluye: Liliums y un tulipán rosados artesanales, margaritas blancas, follaje verde, lazo rosado y tarjeta especial para mamá.' },
+  { id: 16, img: 'imgramos/producto2/fl19.jpeg', title: 'Floral Rojo Radiante',  description: 'Ramo floral rojo. Incluye: Liliums rojos artesanales, pequeñas margaritas blancas, follaje verde, lazo rojo y tarjeta "Para la MEJOR Mamá del Mundo".' },
+  { id: 17, img: 'imgramos/producto2/fl20.jpeg', title: 'Macetita Corazón',      description: 'Macetita de flores eternas. Incluye: Maceta decorativa con detalle de corazón, 5 margaritas rosadas artesanales y tarjeta "Feliz día de la Madre".' },
+  { id: 18, img: 'imgramos/producto2/fl21.jpeg', title: 'Rojo Elegancia Negra',  description: 'Ramo rojo elegante. Incluye: Tulipanes y liliums rojos artesanales, margaritas blancas con centro rojo, llamativa envoltura negra con estampado de margaritas, lazo rojo y tarjeta ilustrada para mamá.' },
+  { id: 19, img: 'imgramos/producto2/fl22.jpeg', title: 'Majestuoso Rosa Pastel',description: 'Ramo majestuoso rosado. Incluye: Una gran variedad de tulipanes, liliums y margaritas en tonos rosa pastel artesanales, follaje verde, envoltura rosa translúcida con detalles de encaje, lazo fucsia y tarjeta ilustrada para mamá.' },
+  { id: 20, img: 'imgramos/producto2/fl23.jpeg', title: 'Mini Rojo Corazón',     description: 'Ramo mini rojo. Incluye: Un lilium rojo artesanal, una pequeña margarita blanca, un toque de follaje verde, envoltura rosada, lazo blanco translúcido y tarjeta "Dios te luciste con la MAMÁ que me diste".' },
+  { id: 21, img: 'imgramos/producto2/fl24.jpeg', title: 'Tulipán Individual',    description: 'Tulipán individual. Incluye: Un tulipán rojo artesanal (limpiapipas), envoltura transparente y blanca con bordes dorados, lazo rojo y tarjeta "Porque soy tu MADRE y punto".' },
+  { id: 22, img: 'imgramos/producto2/fl25.jpeg', title: 'Girasol Artesanal',     description: 'Ramo Girasol. Incluye: Un girasol grande de forma artesanal, envoltura verde menta con detalles dorados, lazo blanco con dorado y tarjeta "Feliz día Mamá".' },
+  { id: 23, img: 'imgramos/producto2/fl26.jpeg', title: 'Love Lila Rosa',        description: 'Ramo "Love" lila. Incluye: Una rosa eterna (listón) de color lila, envoltura rosada con temática "Love", lazo rosado y tarjeta "Dios te luciste con la MAMÁ que me diste".' },
 ];
 
 function waLink(id) {
-  const msg = encodeURIComponent(
-    `Hola! Vi sus arreglos para el Día de la Madre 💐 y me interesa el Arreglo N°${id}. ¿Me podrían dar más información?`
-  );
-  return `https://wa.me/${WA_NUMBER}?text=${msg}`;
+  return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(`Hola! Vi sus arreglos para el Día de la Madre 💐 y me interesa el Arreglo N°${id}. ¿Me podrían dar más información?`)}`;
 }
 
-/* ──────────────────────────────────────────
-   CONSTRUYE EL GRID DE PRODUCTOS
-────────────────────────────────────────── */
+/* ── Grid ── */
 const grid = document.getElementById('grid');
-
 products.forEach(p => {
   const card = document.createElement('div');
   card.className = 'product-card';
@@ -1421,12 +597,7 @@ products.forEach(p => {
   card.setAttribute('aria-label', `Ver arreglo ${p.id}`);
   card.innerHTML = `
     <div class="card-img-wrap">
-      <img
-        src="${p.img}"
-        alt="Arreglo floral ${p.id}"
-        loading="lazy"
-        decoding="async"
-      >
+      <img src="${p.img}" alt="Arreglo floral ${p.id}" loading="lazy" decoding="async">
       <div class="card-overlay">
         <div class="overlay-hint">
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -1438,255 +609,182 @@ products.forEach(p => {
     </div>
     <div class="card-foot">
       <div class="product-number">#${p.id}</div>
-      <a
-        href="${waLink(p.id)}"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn-wa"
-        onclick="event.stopPropagation()"
-        aria-label="Pedir arreglo ${p.id} por WhatsApp"
-      >
+      <a href="${waLink(p.id)}" target="_blank" rel="noopener noreferrer" class="btn-wa"
+         onclick="event.stopPropagation()">
         <svg width="13" height="13" fill="white" viewBox="0 0 24 24">
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
         </svg>
         WhatsApp
       </a>
     </div>`;
-
   card.querySelector('.card-img-wrap').addEventListener('click', () => openLightbox(p.id));
   grid.appendChild(card);
 });
 
-/* ──────────────────────────────────────────
-   HISTORY STATE PARA RETROCEDER
-────────────────────────────────────────── */
-window.addEventListener('popstate', () => {
-  if (lightbox.classList.contains('active')) {
-    closeLightbox();
-  }
-});
-
-/* ──────────────────────────────────────────
-   LIGHTBOX CON ZOOM Y DRAG
-────────────────────────────────────────── */
-const lightbox  = document.getElementById('lightbox');
-const lbImg     = document.getElementById('lb-img');
+/* ══════════════════════════════════════════
+   LIGHTBOX + ZOOM CON LÍMITES
+══════════════════════════════════════════ */
+const lightbox    = document.getElementById('lightbox');
+const lbImg       = document.getElementById('lb-img');
+const lbFrame     = document.getElementById('lb-img-frame');
 const lbContainer = document.getElementById('lb-img-container');
-const lbFrame = document.getElementById('lb-img-frame');
-const lbTitle   = document.getElementById('lb-title');
-const lbDesc    = document.getElementById('lb-description');
-const lbWaBtn   = document.getElementById('lb-wa-btn');
-const lbClose   = document.getElementById('lb-close');
-const lbBackdrop= document.getElementById('lb-backdrop');
-const lbZoomHint = document.getElementById('lb-zoom-hint');
+const lbTitle     = document.getElementById('lb-title');
+const lbDesc      = document.getElementById('lb-description');
+const lbWaBtn     = document.getElementById('lb-wa-btn');
+const lbClose     = document.getElementById('lb-close');
+const lbBackdrop  = document.getElementById('lb-backdrop');
+const lbZoomHint  = document.getElementById('lb-zoom-hint');
 
-let currentScale = 1;
-let isDragging = false;
-let startX, startY, currentX = 0, currentY = 0;
-let zoomHintTimeout = null;
-let hasInteracted = false;
+let scale = 1, tx = 0, ty = 0;
+let hintTimer = null;
+
+function clamp(s, x, y) {
+  if (s <= 1) return { x: 0, y: 0 };
+  const maxX = (lbFrame.clientWidth  * (s - 1)) / 2;
+  const maxY = (lbFrame.clientHeight * (s - 1)) / 2;
+  return { x: Math.max(-maxX, Math.min(maxX, x)), y: Math.max(-maxY, Math.min(maxY, y)) };
+}
+
+function applyTransform(animated) {
+  const c = clamp(scale, tx, ty);
+  tx = c.x; ty = c.y;
+  lbImg.classList.toggle('snap', animated);
+  lbImg.style.transformOrigin = 'center center';
+  lbImg.style.transform = `translate(${tx}px,${ty}px) scale(${scale})`;
+}
+
+function resetZoom(animated) {
+  scale = 1; tx = 0; ty = 0; applyTransform(animated);
+}
 
 function openLightbox(id) {
   const p = products.find(x => x.id === id);
   if (!p) return;
-  lbImg.src       = p.img;
-  lbImg.alt       = `Arreglo floral ${id}`;
+  lbImg.src = p.img; lbImg.alt = `Arreglo floral ${id}`;
   lbTitle.textContent = p.title;
-  lbDesc.textContent = p.description;
-  lbWaBtn.href    = waLink(id);
+  lbDesc.textContent  = p.description;
+  lbWaBtn.href = waLink(id);
+  resetZoom(false);
   lightbox.classList.add('active');
   document.body.style.overflow = 'hidden';
-  
-  // Agregar estado al historial
-  window.history.pushState({ product: id }, `Arreglo ${id}`);
-  
-  // Reset zoom y position al abrir
-  currentScale = 1;
-  currentX = 0;
-  currentY = 0;
-  hasInteracted = false;
-  lbImg.style.transform = `scale(1) translate(0, 0)`;
-  
-  // Mostrar hint
+  window.history.pushState({ lb: id }, '');
   lbZoomHint.classList.remove('hide');
-  
-  // Ocultar hint después de 4 segundos
-  if (zoomHintTimeout) clearTimeout(zoomHintTimeout);
-  zoomHintTimeout = setTimeout(() => {
-    lbZoomHint.classList.add('hide');
-  }, 4000);
+  if (hintTimer) clearTimeout(hintTimer);
+  hintTimer = setTimeout(() => lbZoomHint.classList.add('hide'), 4000);
 }
 
 function closeLightbox() {
   lightbox.classList.remove('active');
   document.body.style.overflow = '';
-  if (zoomHintTimeout) clearTimeout(zoomHintTimeout);
-  setTimeout(() => { 
-    lbImg.src = ''; 
-    lbTitle.textContent = '';
-    lbDesc.textContent = '';
-    currentScale = 1;
-    currentX = 0;
-    currentY = 0;
-    hasInteracted = false;
-    lbImg.style.transform = `scale(1) translate(0, 0)`;
-    lbZoomHint.classList.remove('hide');
+  if (hintTimer) clearTimeout(hintTimer);
+  setTimeout(() => {
+    lbImg.src = ''; lbTitle.textContent = ''; lbDesc.textContent = '';
+    resetZoom(false); lbZoomHint.classList.remove('hide');
   }, 420);
 }
 
-// ── Desktop: Rueda del mouse para zoom ──
-lbFrame.addEventListener('wheel', (e) => {
+lbClose.addEventListener('click',    () => { closeLightbox(); history.back(); });
+lbBackdrop.addEventListener('click', () => { closeLightbox(); history.back(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && lightbox.classList.contains('active')) { closeLightbox(); history.back(); }
+});
+window.addEventListener('popstate', () => { if (lightbox.classList.contains('active')) closeLightbox(); });
+
+/* Rueda (desktop) */
+lbFrame.addEventListener('wheel', e => {
   e.preventDefault();
-  hasInteracted = true;
   lbZoomHint.classList.add('hide');
-  const delta = e.deltaY > 0 ? -0.1 : 0.1;
-  currentScale = Math.max(1, Math.min(3, currentScale + delta));
-  updateImageTransform();
+  scale = Math.max(1, Math.min(4, scale + (e.deltaY < 0 ? 0.15 : -0.15)));
+  if (scale === 1) { tx = 0; ty = 0; }
+  applyTransform(false);
 }, { passive: false });
 
-// ── Desktop: Mouse drag ──
-lbImg.addEventListener('mousedown', (e) => {
-  if (currentScale <= 1) return;
-  isDragging = true;
-  startX = e.clientX - currentX;
-  startY = e.clientY - currentY;
+/* Drag (mouse) */
+let dragging = false, mx0 = 0, my0 = 0, tx0 = 0, ty0 = 0;
+lbContainer.addEventListener('mousedown', e => {
+  if (scale <= 1) return;
+  dragging = true; lbImg.style.cursor = 'grabbing';
+  mx0 = e.clientX; my0 = e.clientY; tx0 = tx; ty0 = ty;
+  e.preventDefault();
 });
-
-document.addEventListener('mousemove', (e) => {
-  if (!isDragging || currentScale <= 1) return;
-  hasInteracted = true;
+window.addEventListener('mousemove', e => {
+  if (!dragging) return;
   lbZoomHint.classList.add('hide');
-  currentX = e.clientX - startX;
-  currentY = e.clientY - startY;
-  updateImageTransform();
+  tx = tx0 + (e.clientX - mx0); ty = ty0 + (e.clientY - my0);
+  applyTransform(false);
+});
+window.addEventListener('mouseup', () => {
+  if (!dragging) return;
+  dragging = false; lbImg.style.cursor = scale > 1 ? 'grab' : 'default';
+  applyTransform(true);
 });
 
-document.addEventListener('mouseup', () => {
-  isDragging = false;
-});
-
-// ── Touch: Pinch to zoom y drag ──
-let lastDistance = 0;
-let touchStartX = 0;
-let touchStartY = 0;
-let isTouchDragging = false;
-
-lbFrame.addEventListener('touchstart', (e) => {
+/* Pinch + drag (touch) */
+let pinchDist0 = 0, scale0 = 1, touchDrag = false;
+lbFrame.addEventListener('touchstart', e => {
+  lbZoomHint.classList.add('hide');
   if (e.touches.length === 2) {
-    lastDistance = getDistance(e.touches[0], e.touches[1]);
-  } else if (e.touches.length === 1 && currentScale > 1) {
-    isTouchDragging = true;
-    touchStartX = e.touches[0].clientX - currentX;
-    touchStartY = e.touches[0].clientY - currentY;
+    touchDrag = false;
+    pinchDist0 = tdist(e.touches[0], e.touches[1]); scale0 = scale;
+  } else if (e.touches.length === 1 && scale > 1) {
+    touchDrag = true;
+    mx0 = e.touches[0].clientX; my0 = e.touches[0].clientY; tx0 = tx; ty0 = ty;
   }
 }, { passive: true });
 
-lbFrame.addEventListener('touchmove', (e) => {
+lbFrame.addEventListener('touchmove', e => {
   if (e.touches.length === 2) {
-    const distance = getDistance(e.touches[0], e.touches[1]);
-    const delta = (distance - lastDistance) * 0.01;
-    currentScale = Math.max(1, Math.min(3, currentScale + delta));
-    lastDistance = distance;
-    hasInteracted = true;
-    lbZoomHint.classList.add('hide');
-    updateImageTransform();
     e.preventDefault();
-  } else if (e.touches.length === 1 && isTouchDragging) {
-    currentX = e.touches[0].clientX - touchStartX;
-    currentY = e.touches[0].clientY - touchStartY;
-    hasInteracted = true;
-    lbZoomHint.classList.add('hide');
-    updateImageTransform();
+    scale = Math.max(1, Math.min(4, scale0 * (tdist(e.touches[0], e.touches[1]) / pinchDist0)));
+    if (scale === 1) { tx = 0; ty = 0; }
+    applyTransform(false);
+  } else if (e.touches.length === 1 && touchDrag) {
+    e.preventDefault();
+    tx = tx0 + (e.touches[0].clientX - mx0); ty = ty0 + (e.touches[0].clientY - my0);
+    applyTransform(false);
   }
 }, { passive: false });
 
-lbFrame.addEventListener('touchend', () => {
-  isTouchDragging = false;
-}, { passive: true });
+lbFrame.addEventListener('touchend', () => { touchDrag = false; applyTransform(true); }, { passive: true });
 
-function getDistance(touch1, touch2) {
-  const dx = touch1.clientX - touch2.clientX;
-  const dy = touch1.clientY - touch2.clientY;
-  return Math.sqrt(dx * dx + dy * dy);
+function tdist(a, b) {
+  return Math.sqrt((a.clientX - b.clientX) ** 2 + (a.clientY - b.clientY) ** 2);
 }
 
-function updateImageTransform() {
-  lbImg.style.transform = `scale(${currentScale}) translate(${currentX / currentScale}px, ${currentY / currentScale}px)`;
-}
-
-lbClose.addEventListener('click', () => {
-  closeLightbox();
-  window.history.back();
-});
-
-lbBackdrop.addEventListener('click', () => {
-  closeLightbox();
-  window.history.back();
-});
-
-document.addEventListener('keydown', e => { 
-  if (e.key === 'Escape' && lightbox.classList.contains('active')) {
-    closeLightbox();
-    window.history.back();
-  }
-});
-
-/* ──────────────────────────────────────────
-   PETALS ANIMATION
-────────────────────────────────────────── */
+/* ══════════════════════════════════════════
+   PÉTALOS
+══════════════════════════════════════════ */
 const canvas = document.getElementById('petals-canvas');
 const ctx    = canvas.getContext('2d');
-
-function resizeCanvas() {
-  canvas.width  = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 
-const PETAL_N = 28;
-const petals  = Array.from({ length: PETAL_N }, () => ({
-  x:        Math.random() * window.innerWidth,
-  y:        Math.random() * window.innerHeight - window.innerHeight,
-  size:     5 + Math.random() * 12,
-  speed:    0.5 + Math.random() * 1.3,
-  drift:    (Math.random() - .5) * .9,
-  rot:      Math.random() * Math.PI * 2,
-  rotSpeed: (Math.random() - .5) * .048,
-  opacity:  0.1 + Math.random() * 0.4,
-  hue:      335 + Math.random() * 30,
+const petals = Array.from({ length: 28 }, () => ({
+  x: Math.random() * window.innerWidth,
+  y: Math.random() * window.innerHeight - window.innerHeight,
+  size: 5 + Math.random() * 12, speed: 0.5 + Math.random() * 1.3,
+  drift: (Math.random() - .5) * .9,
+  rot: Math.random() * Math.PI * 2, rotSpeed: (Math.random() - .5) * .048,
+  opacity: 0.1 + Math.random() * 0.4, hue: 335 + Math.random() * 30,
 }));
 
 function drawPetal(p) {
-  ctx.save();
-  ctx.translate(p.x, p.y);
-  ctx.rotate(p.rot);
-  ctx.globalAlpha = p.opacity;
-  ctx.beginPath();
-  ctx.ellipse(0, 0, p.size * 0.36, p.size, 0, 0, Math.PI * 2);
+  ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.globalAlpha = p.opacity;
+  ctx.beginPath(); ctx.ellipse(0, 0, p.size * .36, p.size, 0, 0, Math.PI * 2);
   const g = ctx.createRadialGradient(0, -p.size * .32, 0, 0, 0, p.size);
-  g.addColorStop(0, `hsla(${p.hue},85%,88%,1)`);
-  g.addColorStop(1, `hsla(${p.hue},65%,60%,.15)`);
-  ctx.fillStyle = g;
-  ctx.fill();
-  ctx.restore();
+  g.addColorStop(0, `hsla(${p.hue},85%,88%,1)`); g.addColorStop(1, `hsla(${p.hue},65%,60%,.15)`);
+  ctx.fillStyle = g; ctx.fill(); ctx.restore();
 }
-
 (function animPetals() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   petals.forEach(p => {
-    p.y   += p.speed;
-    p.x   += p.drift + Math.sin(p.y * 0.016) * 0.5;
-    p.rot += p.rotSpeed;
-    if (p.y > canvas.height + 28) {
-      p.y = -28;
-      p.x = Math.random() * canvas.width;
-    }
+    p.y += p.speed; p.x += p.drift + Math.sin(p.y * .016) * .5; p.rot += p.rotSpeed;
+    if (p.y > canvas.height + 28) { p.y = -28; p.x = Math.random() * canvas.width; }
     drawPetal(p);
   });
   requestAnimationFrame(animPetals);
 })();
-
 </script>
 </body>
 </html>
